@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgame.R
 import com.example.boardgame.model.BoardGames
 
 class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) : RecyclerView.Adapter<GamesAdapters.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(context).inflate(R.layout.card_item, parent, false)
+        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         return ItemHolder(itemHolder)
     }
 
@@ -30,12 +31,13 @@ class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) 
         holder.thumbCnt.text = boardGames.thumbCnt.toString()
         holder.commentCnt.text = boardGames.commentCnt.toString()
 
-        holder.title.setOnClickListener {
-            Toast.makeText(context, boardGames.gameTitle, Toast.LENGTH_LONG).show()
+        holder.card.setOnClickListener {
+            Toast.makeText(context, boardGames.gameTitle + " Clicked!", Toast.LENGTH_LONG).show()
         }
     }
 
     class ItemHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
+        var card = itemView.findViewById<CardView>(R.id.item_cardView)
         var image = itemView.findViewById<ImageView>(R.id.game_imageView)
         var title = itemView.findViewById<TextView>(R.id.title_textView)
         var level = itemView.findViewById<TextView>(R.id.level_textView)

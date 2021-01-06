@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">BoardGame</string>
+    <string name="num_people">인원</string>
+    <string name="playTime">플레이시간</string>
+    <string name="age">사용연령</string>
+    <string name="gameLevel">게임 난이도</string>
+    <string name="genre">장르</string>
+    <string name="howToPlay">게임방법</string>
+    <string name="rate">평가</string>
+    <string name="similar">비슷한 게임</string>
+    <string name="rate_preview">$60 Excepteur occacat cupidata Entire home/apt, 1 bed</string>
 </resources>
