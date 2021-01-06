@@ -19,7 +19,7 @@
         android:background="@drawable/theme_item_outline"
         android:gravity="center_horizontal|center_vertical"
         android:text="SF"
-        android:textColor="7B7B7B"
+        android:textColor="#7B7B7B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

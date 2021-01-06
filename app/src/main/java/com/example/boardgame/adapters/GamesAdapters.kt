@@ -1,6 +1,7 @@
 package com.example.boardgame.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.boardgame.DetailActivity
 import com.example.boardgame.R
 import com.example.boardgame.model.BoardGames
 
@@ -23,7 +26,7 @@ class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) 
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var boardGames : BoardGames = arrayList.get(position)
+        var boardGames : BoardGames = arrayList[position]
 
         holder.image.setImageResource(boardGames.gameImage!!)
         holder.title.text = boardGames.gameTitle
@@ -31,13 +34,16 @@ class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) 
         holder.thumbCnt.text = boardGames.thumbCnt.toString()
         holder.commentCnt.text = boardGames.commentCnt.toString()
 
-        holder.card.setOnClickListener {
-            Toast.makeText(context, boardGames.gameTitle + " Clicked!", Toast.LENGTH_LONG).show()
+        holder.itemView.setOnClickListener {
+            val intent = Intent(holder.itemView?.context, DetailActivity::class.java)
+            intent.putExtra("image", boardGames.gameImage!!)
+            intent.putExtra("title", boardGames.gameTitle)
+            intent.putExtra("level", boardGames.gameLevel)
+            ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
     }
 
     class ItemHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var card = itemView.findViewById<CardView>(R.id.item_cardView)
         var image = itemView.findViewById<ImageView>(R.id.game_imageView)
         var title = itemView.findViewById<TextView>(R.id.title_textView)
         var level = itemView.findViewById<TextView>(R.id.level_textView)
