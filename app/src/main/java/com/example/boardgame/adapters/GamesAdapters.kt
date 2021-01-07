@@ -15,18 +15,18 @@ import com.example.boardgame.DetailActivity
 import com.example.boardgame.R
 import com.example.boardgame.model.BoardGames
 
-class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) : RecyclerView.Adapter<GamesAdapters.ItemHolder>() {
+class GamesAdapters(var context: Context, var list: List<BoardGames>) : RecyclerView.Adapter<GamesAdapters.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.card_item, parent, false)
         return ItemHolder(itemHolder)
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return list.size
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var boardGames : BoardGames = arrayList[position]
+        var boardGames : BoardGames = list[position]
 
         holder.image.setImageResource(boardGames.gameImage!!)
         holder.title.text = boardGames.gameTitle
@@ -36,9 +36,7 @@ class GamesAdapters(var context: Context, var arrayList: ArrayList<BoardGames>) 
 
         holder.itemView.setOnClickListener {
             val intent = Intent(holder.itemView?.context, DetailActivity::class.java)
-            intent.putExtra("image", boardGames.gameImage!!)
-            intent.putExtra("title", boardGames.gameTitle)
-            intent.putExtra("level", boardGames.gameLevel)
+            intent.putExtra("id", boardGames.id)
             ContextCompat.startActivity(holder.itemView.context, intent, null)
         }
     }

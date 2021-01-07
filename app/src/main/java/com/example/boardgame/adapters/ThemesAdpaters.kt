@@ -8,18 +8,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgame.R
 
-class ThemesAdpaters(var context : Context, var arrayList : ArrayList<String>) : RecyclerView.Adapter<ThemesAdpaters.ItemHolder>() {
+class ThemesAdpaters(var context : Context, var list : List<String>) : RecyclerView.Adapter<ThemesAdpaters.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.theme_item, parent, false)
         return ItemHolder(itemHolder)
     }
 
     override fun getItemCount(): Int {
-        return arrayList.size
+        return list.size
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var theme_item : String = arrayList[position]
+        var theme_item : String = list[position]
 
         holder.theme_text.text = theme_item
     }

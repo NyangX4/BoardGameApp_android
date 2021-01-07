@@ -1,6 +1,5 @@
 package com.example.boardgame
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -11,33 +10,33 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.adapters.ThemesAdpaters
 import com.example.boardgame.model.BoardGames
+import com.example.boardgame.data.DummyRepository
 
 class DetailActivity : AppCompatActivity() {
-    private var themeRecyclerView : RecyclerView? = null
-    private var themeGridLayoutManager : GridLayoutManager? = null
-    private var themeArrayList : ArrayList<String>? = null
-    private var themeAdapter : ThemesAdpaters? = null
+    private var themeRecyclerView: RecyclerView? = null
+    private var themeGridLayoutManager: GridLayoutManager? = null
+    private var themeList: List<String>? = null
+    private var themeAdapter: ThemesAdpaters? = null
 
-    private var similarRecyclerView : RecyclerView? = null
-    private var similarGridLayoutManager : GridLayoutManager? = null
-    private var similarArrayList : ArrayList<BoardGames>? = null
-    private var similarAdapter : GamesAdapters? = null
+    private var similarRecyclerView: RecyclerView? = null
+    private var similarGridLayoutManager: GridLayoutManager? = null
+    private var similarList: MutableList<BoardGames>? = null
+    private var similarAdapter: GamesAdapters? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        val game_img = intent.getIntExtra("image", -1)
-        val game_title = intent.getStringExtra("title")
-        val game_level = intent.getFloatExtra("level", 0.0f)
+        val id = intent.getIntExtra("id", 0)
+        val data = DummyRepository.getItem(id)
 
-        val game_imageView = findViewById<ImageView>(R.id.detail_game_imageView)
-        game_imageView.setImageResource(game_img)
-        val detail_title_tv = findViewById<TextView>(R.id.detail_title_tv).apply {
-            text = game_title
+        val gameImageView = findViewById<ImageView>(R.id.detail_game_imageView)
+        gameImageView.setImageResource(data?.gameImage!!)
+        val detailTitleTv = findViewById<TextView>(R.id.detail_title_tv).apply {
+            text = data?.gameTitle
         }
-        val detail_level_tv = findViewById<TextView>(R.id.detail_level_tv).apply {
-            text = game_level.toString() + " / 5"
+        val detailLevelTv = findViewById<TextView>(R.id.detail_level_tv).apply {
+            text = data?.gameLevel.toString() + " / 5"
         }
 
         // theme recyclerView
@@ -46,8 +45,8 @@ class DetailActivity : AppCompatActivity() {
         themeGridLayoutManager = GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false)
         themeRecyclerView?.layoutManager = themeGridLayoutManager
         themeRecyclerView?.setHasFixedSize(true)
-        themeArrayList = setThemeDataList()
-        themeAdapter = ThemesAdpaters(this, themeArrayList!!)
+        themeList = setThemeDataList()
+        themeAdapter = ThemesAdpaters(this, themeList!!)
         themeRecyclerView?.adapter = themeAdapter
 
         // similar recyclerView
@@ -55,28 +54,21 @@ class DetailActivity : AppCompatActivity() {
         similarGridLayoutManager = GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false)
         similarRecyclerView?.layoutManager = similarGridLayoutManager
         similarRecyclerView?.setHasFixedSize(true)
-        similarArrayList = setSimilarDataList()
-        similarAdapter = GamesAdapters(this, similarArrayList!!)
+        similarList = setSimilarDataList()
+        similarAdapter = GamesAdapters(this, similarList!!)
         similarRecyclerView?.adapter = similarAdapter
     }
 
-    private fun setThemeDataList() : ArrayList<String> {
-        var items : ArrayList<String> = ArrayList()
-
-        items.add("SF")
-        items.add("경제")
-        items.add("산업/제조")
-        items.add("영토건설")
-        items.add("환경")
-
-        return items
+    private fun setThemeDataList(): List<String> {
+        return listOf("SF", "경제", "산업/제조", "영토건설", "환경")
     }
 
-    private fun setSimilarDataList() : ArrayList<BoardGames> {
-        var items : ArrayList<BoardGames> = ArrayList()
+    private fun setSimilarDataList(): MutableList<BoardGames> {
+        var items: MutableList<BoardGames> = mutableListOf()
 
-        items.add(BoardGames(R.drawable.twilight_struggle, "황혼의 투쟁 (2005)", 3.76f, 125, 389))
-        items.add(BoardGames(R.drawable.mage_knight, "메이지 나이트 (2011)", 4.43f, 74, 214))
+        // 위의 코드를 아래와 같이 한 줄로 표현할 수 있음.
+        DummyRepository.getItem(3)?.let { items.add(it) }
+        DummyRepository.getItem(4)?.let { items.add(it) }
 
         return items
     }
