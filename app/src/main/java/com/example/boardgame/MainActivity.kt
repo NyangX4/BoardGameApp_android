@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recylerView = findViewById(R.id.games_recyclerView)
+        // TODO : spanCount를 auto fit으로 바꿔주기
         gridLayoutManager = GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
         recylerView?.layoutManager = gridLayoutManager
         recylerView?.setHasFixedSize(true)
