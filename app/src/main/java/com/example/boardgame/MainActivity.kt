@@ -2,28 +2,23 @@ package com.example.boardgame
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.data.DummyRepository
+import com.example.boardgame.databinding.ActivityMainBinding
 
-// TODO : data binding 해주기
 class MainActivity : AppCompatActivity() {
-    private var recylerView: RecyclerView? = null
-    private var gridLayoutManager: GridLayoutManager? = null
-    private var gamesAdpaters: GamesAdapters? = null
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        recylerView = findViewById(R.id.games_recyclerview)
         // TODO : spanCount를 auto fit으로 바꿔주기
-        gridLayoutManager = GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
-        recylerView?.layoutManager = gridLayoutManager
-        recylerView?.setHasFixedSize(true)
-        gamesAdpaters = GamesAdapters(this, DummyRepository.getList())
-        recylerView?.adapter = gamesAdpaters
+        binding.gamesRecyclerview.layoutManager = GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+        binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
+        binding.gamesRecyclerview.setHasFixedSize(true)
     }
 }

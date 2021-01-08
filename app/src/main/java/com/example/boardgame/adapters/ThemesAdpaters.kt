@@ -2,15 +2,13 @@ package com.example.boardgame.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.boardgame.R
+import com.example.boardgame.databinding.ThemeItemBinding
 
 class ThemesAdpaters(var context : Context, var list : List<String>) : RecyclerView.Adapter<ThemesAdpaters.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.theme_item, parent, false)
+        val itemHolder = ThemeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemHolder(itemHolder)
     }
 
@@ -19,14 +17,12 @@ class ThemesAdpaters(var context : Context, var list : List<String>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var theme_item : String = list[position]
-
-        holder.theme_text.text = theme_item
+        holder.onBind(list[position])
     }
 
-    class ItemHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var theme_text = itemView.findViewById<TextView>(R.id.theme_item)
+    class ItemHolder(private val binding : ThemeItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(theme : String) {
+            binding.theme = theme
+        }
     }
-
-
 }
