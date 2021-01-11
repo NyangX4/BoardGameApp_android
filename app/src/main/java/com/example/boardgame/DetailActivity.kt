@@ -1,6 +1,6 @@
 package com.example.boardgame
 
-import androidx.appcompat.app.AppCompatActivity
+import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +22,15 @@ class DetailActivity : AppCompatActivity() {
         val id = intent.getIntExtra("id", 0)
         val data = DummyRepository.getItem(id)
         binding.boardGame = data
+
+        // back button
+        setSupportActionBar(binding.detailToolbar)
+        supportActionBar?.apply {
+            // show back button on toolbar
+            setDisplayHomeAsUpEnabled(true)
+            // icon 바꾸기
+            setHomeAsUpIndicator(R.drawable.ic_home)
+        }
 
         // theme recyclerView
         // TODO : spanCount를 auto fit으로 바꿔주기

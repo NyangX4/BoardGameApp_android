@@ -26,6 +26,7 @@
                 android:background="@color/purple_200"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
+                app:title="@{boardGame.gameTitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
