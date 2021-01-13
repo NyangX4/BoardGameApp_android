@@ -1,7 +1,9 @@
 package com.example.boardgame
 
+import android.content.Intent
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,8 +30,6 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.apply {
             // show back button on toolbar
             setDisplayHomeAsUpEnabled(true)
-            // icon 바꾸기
-            setHomeAsUpIndicator(R.drawable.ic_home)
         }
 
         // theme recyclerView
@@ -42,6 +42,11 @@ class DetailActivity : AppCompatActivity() {
         binding.detailSimilarRecyclerView.layoutManager = GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false)
         binding.detailSimilarRecyclerView.adapter = GamesAdapters(this, setSimilarDataList(data.similarList))
         binding.detailSimilarRecyclerView.setHasFixedSize(true)
+
+        binding.detailSearchBtn.setOnClickListener {
+            val intent = Intent(binding.root.context, SearchActivity::class.java)
+            ContextCompat.startActivity(binding.root.context, intent, null)
+        }
     }
 
     private fun setSimilarDataList(list : List<Int>?): MutableList<BoardGames> {
@@ -50,5 +55,10 @@ class DetailActivity : AppCompatActivity() {
         list?.forEach { id -> DummyRepository.getItem(id)?.let { items.add(it) } }
 
         return items
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

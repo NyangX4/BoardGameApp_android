@@ -26,29 +26,6 @@
                 app:navigationIcon="@drawable/ic_menu"
                 app:title="보드게임" />
 
-            <ImageButton
-                android:id="@+id/search_imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="#00FFFFFF"
-                android:src="@drawable/ic_search"
-                app:layout_constraintBottom_toBottomOf="@id/toolbar"
-                app:layout_constraintEnd_toStartOf="@+id/filter_imageButton"
-                app:layout_constraintTop_toTopOf="@id/toolbar" />
-
-            <ImageButton
-                android:id="@+id/filter_imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="#00FFFFFF"
-                android:src="@drawable/ic_filter"
-                app:layout_constraintBottom_toBottomOf="@id/toolbar"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/toolbar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
