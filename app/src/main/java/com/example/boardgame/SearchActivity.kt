@@ -1,9 +1,12 @@
 package com.example.boardgame
 
 import android.app.SearchManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
@@ -29,22 +32,21 @@ class SearchActivity : AppCompatActivity() {
 
         // search
         val searchListView = binding.searchListview
-        val titles = DummyRepository.getTitleList()
-        val adapter : ArrayAdapter<String?> = ArrayAdapter(this, android.R.layout.simple_list_item_1, titles)
+        val searchView = binding.searchSearchview
+
+        val adapter : ArrayAdapter<String?> = ArrayAdapter(this, android.R.layout.simple_list_item_1, DummyRepository.getTitleList())
         searchListView.adapter = adapter
         searchListView.onItemClickListener = AdapterView.OnItemClickListener{ parent, view, position, id ->
-            val intent = Intent(binding.root.context, DetailActivity::class.java)
-            intent.putExtra("id", DummyRepository.getId(parent?.getItemAtPosition(position).toString()))
-            ContextCompat.startActivity(binding.root.context, intent, null)
-            finish()
+            searchView.setQuery(parent?.getItemAtPosition(position).toString(), false) // searchview에 선택된 값이 올라가기
         }
 
-        binding.searchSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.isIconified = false // searchView가 있는 화면에 들어가면 자동 focusing이 됨
+        val searchManager : SearchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(ComponentName(this, SearchResultActivity::class.java)))
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.searchSearchview.clearFocus()
-                if (titles.contains(query)) adapter.filter.filter(query)
-                else Toast.makeText(applicationContext, "Item not found", Toast.LENGTH_LONG).show()
-
+                binding.searchSearchview.clearFocus() // searchview의 focusing이 사라짐
+                finish() // submit한 후 activity 끝냄
                 return false
             }
 

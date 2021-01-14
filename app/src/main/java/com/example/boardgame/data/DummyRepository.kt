@@ -2,6 +2,7 @@ package com.example.boardgame.data
 
 import com.example.boardgame.R
 import com.example.boardgame.model.BoardGames
+import java.util.*
 
 // 자동 formating : ctrl + alt + l
 
@@ -52,13 +53,25 @@ object DummyRepository {
 
     fun getList() = dummyDataList
     fun getItem(id: Int): BoardGames? = dummyDataList.find { it.id == id }
-    fun getId(title : String) : Int? = dummyDataList.find { it.gameTitle == title }?.id
-    fun getTitleList() : MutableList<String?> {
-        var titles = mutableListOf<String?>()
-        for(item in dummyDataList) {
-            titles.add(item.gameTitle)
+    fun searchResultList(title: String?): MutableList<BoardGames> {
+        var items : MutableList<BoardGames> = mutableListOf()
+
+        for (item in dummyDataList) {
+            if (item.gameTitle!!.startsWith(title!!)) {
+                items.add(item)
+                break
+            }
+
+            for (word in item.gameTitle!!.split(" ")) {
+                if (word.startsWith(title!!)) {
+                    items.add(item)
+                    break
+                }
+            }
         }
 
-        return titles
+        return items
     }
+
+    fun getTitleList(): List<String?> = dummyDataList.map { it.gameTitle }
 }
