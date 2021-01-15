@@ -3,6 +3,7 @@ package com.example.boardgame
 import android.content.Intent
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,9 +44,16 @@ class DetailActivity : AppCompatActivity() {
         binding.detailSimilarRecyclerView.adapter = GamesAdapters(this, setSimilarDataList(data.similarList))
         binding.detailSimilarRecyclerView.setHasFixedSize(true)
 
+        // search activity
         binding.detailSearchBtn.setOnClickListener {
             val intent = Intent(binding.root.context, SearchActivity::class.java)
             ContextCompat.startActivity(binding.root.context, intent, null)
+        }
+
+        // when clicked thumb btn
+        binding.detailThumb.setOnClickListener {
+            binding.detailThumb.isSelected = !binding.detailThumb.isSelected
+            // TODO : activity가 종료되어도 그대로 남아있기
         }
     }
 

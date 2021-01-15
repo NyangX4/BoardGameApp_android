@@ -85,7 +85,7 @@
                         <TextView
                             android:id="@+id/detail_title_tv"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -99,12 +99,13 @@
                         <ImageButton
                             android:id="@+id/detail_thumb"
                             android:layout_width="50dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="5dp"
                             android:layout_marginLeft="5dp"
-                            android:background="#00FFFFFF"
-                            android:src="@drawable/ic_baseline_thumb_up_24"
+                            android:background="#00ffffff"
+                            android:tint="@animator/thumb_color"
+                            android:src="@drawable/ic_thumb"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 

@@ -45,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
         searchView.setSearchableInfo(searchManager.getSearchableInfo(ComponentName(this, SearchResultActivity::class.java)))
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                binding.searchSearchview.clearFocus() // searchview의 focusing이 사라짐
+                binding.searchSearchview.clearFocus() // searchView의 focusing이 사라짐
                 finish() // submit한 후 activity 끝냄
                 return false
             }
