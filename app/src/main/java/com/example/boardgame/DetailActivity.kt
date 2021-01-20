@@ -3,13 +3,12 @@ package com.example.boardgame
 import android.content.Intent
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardgame.adapters.GamesAdapters
-import com.example.boardgame.adapters.ThemesAdpaters
+import com.example.boardgame.adapters.ThemeAdpaters
 import com.example.boardgame.model.BoardGames
 import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.databinding.ActivityDetailBinding
@@ -36,7 +35,7 @@ class DetailActivity : AppCompatActivity() {
         // theme recyclerView
         // TODO : spanCount를 auto fit으로 바꿔주기
         binding.detailThemeRecyclerView.layoutManager = GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false)
-        binding.detailThemeRecyclerView.adapter = ThemesAdpaters(this, data?.themeList!!)
+        binding.detailThemeRecyclerView.adapter = ThemeAdpaters(this, DummyRepository.getThemeTitleList(data?.themeList!!))
         binding.detailThemeRecyclerView.setHasFixedSize(true)
 
         // similar recyclerView
