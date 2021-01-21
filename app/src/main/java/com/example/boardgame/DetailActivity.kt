@@ -64,6 +64,7 @@ class DetailActivity : AppCompatActivity() {
         return items
     }
 
+    // 뒤로가기 버튼
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true

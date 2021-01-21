@@ -41,13 +41,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.filter_btn -> Toast.makeText(this, "filter", Toast.LENGTH_LONG).show()
+            R.id.filter_btn -> {
+//                Toast.makeText(this, "filter", Toast.LENGTH_LONG).show()
+                val intent = Intent(binding.root.context, FilterActivity::class.java)
+                ContextCompat.startActivity(binding.root.context, intent, null)
+            }
             R.id.search_btn -> {
                 val intent = Intent(binding.root.context, SearchActivity::class.java)
                 ContextCompat.startActivity(binding.root.context, intent, null)
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 

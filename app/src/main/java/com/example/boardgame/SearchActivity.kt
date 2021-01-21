@@ -1,18 +1,13 @@
 package com.example.boardgame
 
-import android.app.Activity
 import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.TextUtils
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.SearchView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.databinding.ActivitySearchBinding

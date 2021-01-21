@@ -9,13 +9,13 @@ object TagList {
 
     fun getGenreId(title : String) : Int {
         genreList.add(title)
-        genreList.distinct()
+        genreList = genreList.toSet().toMutableList()
 
         return genreList.indexOf(title)
     }
     fun getThemeId(title : String) : Int {
         themeList.add(title)
-        themeList.distinct()
+        themeList = themeList.toSet().toMutableList()
 
         return themeList.indexOf(title)
     }

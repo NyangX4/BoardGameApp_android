@@ -9,6 +9,7 @@
     <string name="howToPlay">게임방법</string>
     <string name="rate">평가</string>
     <string name="similar">비슷한 게임</string>
+    <string name="theme">테마</string>
     <string name="rate_preview">$60 Excepteur occacat cupidata Entire home/apt, 1 bed</string>
     <string name="search_hint">Search board games</string>
 </resources>
