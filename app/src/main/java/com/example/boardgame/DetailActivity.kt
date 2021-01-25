@@ -3,6 +3,7 @@ package com.example.boardgame
 import android.content.Intent
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -53,6 +54,12 @@ class DetailActivity : AppCompatActivity() {
         binding.detailThumb.setOnClickListener {
             binding.detailThumb.isSelected = !binding.detailThumb.isSelected
             // TODO : activity가 종료되어도 그대로 남아있기
+        }
+
+        // filter more activity
+        binding.detailRateMoreBtn.setOnClickListener {
+            val intent = Intent(binding.root.context, RateMoreActivity::class.java)
+            ContextCompat.startActivity(binding.root.context, intent, null)
         }
     }
 
