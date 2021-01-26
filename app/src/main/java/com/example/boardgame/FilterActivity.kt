@@ -35,6 +35,7 @@ class FilterActivity : AppCompatActivity() {
         setPeopleBtn()
 
         // spinner
+        // TODO : 조건 없는 경우 추가하기
         val levelItems : List<Int> = listOf(0,1,2,3,4,5)
         val levelAdapter : ArrayAdapter<Int?> = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, levelItems)
         binding.filterLevelSpinnerMin.adapter = levelAdapter
@@ -42,7 +43,18 @@ class FilterActivity : AppCompatActivity() {
 
         // apply button
         binding.filterApplyBtn.setOnClickListener {
-            Toast.makeText(this, binding.filterLevelSpinnerMin.selectedItem.toString(), Toast.LENGTH_SHORT).show()
+            val min = binding.filterLevelSpinnerMax.selectedItem as Int
+            val max = binding.filterLevelSpinnerMin.selectedItem as Int
+
+            if (min != 0 && max != 0) {
+                if (min < max) {
+                    // TODO : warning 문구 바꾸기
+                    Toast.makeText(this, "인원 수 warning", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else {
+                Toast.makeText(this, "적용하기", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
