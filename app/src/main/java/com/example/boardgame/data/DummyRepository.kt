@@ -83,6 +83,7 @@ object DummyRepository {
     )
 
     fun getList() = dummyDataList
+    fun getSomeList() = listOf(dummyDataList[1], dummyDataList[0], dummyDataList[5])
     fun getItem(id: Int): BoardGames? = dummyDataList.find { it.id == id }
     fun searchResultList(title: String?): MutableList<BoardGames> {
         var items: MutableList<BoardGames> = mutableListOf()

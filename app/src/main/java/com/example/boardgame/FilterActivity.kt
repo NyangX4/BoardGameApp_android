@@ -1,5 +1,6 @@
 package com.example.boardgame
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,10 +20,15 @@ import com.example.boardgame.databinding.ActivityFilterBinding
 class FilterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityFilterBinding
 
+    private lateinit var genreAdapter: FilterAdapters
+    private lateinit var themeAdapter: FilterAdapters
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // binding 세팅
         binding = DataBindingUtil.setContentView(this, R.layout.activity_filter)
+        genreAdapter = FilterAdapters(this, TagList.getGenreList())
+        themeAdapter = FilterAdapters(this, TagList.getThemeList())
 
         setSupportActionBar(binding.filterToolbar)
         supportActionBar?.apply {
@@ -53,7 +59,12 @@ class FilterActivity : AppCompatActivity() {
                 }
             }
             else {
-                Toast.makeText(this, "적용하기", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "적용하기", Toast.LENGTH_SHORT).show()
+                val intent : Intent = Intent()
+                intent.putExtra("genreList", genreAdapter.getSelectedList())
+                intent.putExtra("themeList", themeAdapter.getSelectedList())
+                setResult(RESULT_OK, intent)
+                finish()
             }
         }
 
@@ -63,13 +74,13 @@ class FilterActivity : AppCompatActivity() {
         // genre recyclerView
         // TODO : spanCount를 auto fit으로 바꿔주기
         binding.filterGenreRecyclerview.layoutManager = GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false)
-        binding.filterGenreRecyclerview.adapter = FilterAdapters(this, TagList.getGenreList())
+        binding.filterGenreRecyclerview.adapter = genreAdapter
         binding.filterGenreRecyclerview.setHasFixedSize(true)
 
         // theme recyclerView
         // TODO : spanCount를 auto fit으로 바꿔주기
         binding.filterThemeRecyclerview.layoutManager = GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false)
-        binding.filterThemeRecyclerview.adapter = FilterAdapters(this, TagList.getThemeList())
+        binding.filterThemeRecyclerview.adapter = themeAdapter
         binding.filterThemeRecyclerview.setHasFixedSize(true)
     }
 
