@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -49,25 +50,31 @@ class FilterActivity : AppCompatActivity() {
 
         // apply button
         binding.filterApplyBtn.setOnClickListener {
-            val min = binding.filterLevelSpinnerMax.selectedItem as Int
-            val max = binding.filterLevelSpinnerMin.selectedItem as Int
+            val min = binding.filterLevelSpinnerMin.selectedItem as Int
+            val max = binding.filterLevelSpinnerMax.selectedItem as Int
 
             if (min != 0 && max != 0) {
-                if (min < max) {
+                if (min > max) {
                     // TODO : warning 문구 바꾸기
-                    Toast.makeText(this, "인원 수 warning", Toast.LENGTH_SHORT).show()
+                    Log.i("에러 메시지", "들어옴!")
+                    Toast.makeText(applicationContext, "인원 수 warning", Toast.LENGTH_SHORT).show()
+
+                    //TODO : 예외처리 추가하기
+                    // 1. 인원 수 입력이 없을 때
+
+                    return@setOnClickListener
                 }
             }
-            else {
-//                Toast.makeText(this, "적용하기", Toast.LENGTH_SHORT).show()
-                val intent : Intent = Intent()
-                intent.putExtra("genreList", genreAdapter.getSelectedList())
-                intent.putExtra("themeList", themeAdapter.getSelectedList())
-                setResult(RESULT_OK, intent)
-                finish()
-            }
-        }
 
+            val intent: Intent = Intent()
+            intent.putExtra("genreList", genreAdapter.getSelectedList())
+            intent.putExtra("themeList", themeAdapter.getSelectedList())
+            intent.putExtra("numPeople", Integer.parseInt(binding.filterPeopleEdit.text.toString()))
+            intent.putExtra("levelMin", min)
+            intent.putExtra("levelMax", max)
+            setResult(RESULT_OK, intent)
+            finish()
+        }
     }
 
     private fun setRecyclerView() {

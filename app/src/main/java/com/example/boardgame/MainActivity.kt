@@ -64,16 +64,13 @@ class MainActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) run {
                 val genreList : ArrayList<String> = data?.getStringArrayListExtra("genreList") as ArrayList<String>
                 val themeList : ArrayList<String> = data.getStringArrayListExtra("themeList") as ArrayList<String>
-
-                for (idx in genreList) {
-                    Log.i("넘어온 데이터", idx)
-                }
-                for (idx in themeList) {
-                    Log.i("넘어온 데이터", idx)
-                }
+                val numPeople : Int = data.getIntExtra("numPeople", 0)
+                val levelMin : Int = data.getIntExtra("levelMin", 0)
+                val levelMax : Int = data.getIntExtra("levelMax", 0)
 
                 binding.mainFilterApplyLayout.visibility = View.VISIBLE
-                binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getSomeList())
+                binding.gamesRecyclerview.adapter = GamesAdapters(this,
+                    DummyRepository.filtering(genreList, themeList, numPeople, levelMin, levelMax))
 
                 binding.mainFilterXBtn.setOnClickListener {
                     binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())

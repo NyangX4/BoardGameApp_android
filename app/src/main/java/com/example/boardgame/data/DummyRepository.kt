@@ -1,8 +1,10 @@
 package com.example.boardgame.data
 
+import android.util.Log
 import com.example.boardgame.R
 import com.example.boardgame.SearchResultActivity
 import com.example.boardgame.model.BoardGames
+import kotlin.time.seconds
 
 // 자동 formating : ctrl + alt + l
 
@@ -18,7 +20,7 @@ object DummyRepository {
                 TagList.getThemeId("영토건설"),
                 TagList.getThemeId("환경")
             ),
-            "1~5인 (3~4인 추천)", "90~120분", "12세 이상",
+            1, 5, 90, 120 , 12,
             listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3ndxE3U", 8.42f, listOf(1, 2)
         ),
 
@@ -30,7 +32,7 @@ object DummyRepository {
                 TagList.getThemeId("판타지"),
                 TagList.getThemeId("전투")
             ),
-            "1~4명 (3인 추천)", "60~120분", "12세 이상",
+            1, 4, 60, 120, 12,
             listOf(TagList.getGenreId("테마게임")), "https://bit.ly/35mZ0i5", 7.43f, listOf(1, 5, 7)
         ),
 
@@ -42,7 +44,7 @@ object DummyRepository {
                 TagList.getThemeId("탐험"),
                 TagList.getThemeId("판타지")
             ),
-            "1~4명 (1~3명, 1~2인 추천)", "150분", "14세 이상",
+            1, 4, 60, 240, 14,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("테마게임")),
             "https://bit.ly/2JYPwlE", 5.32f, listOf(4)
         ),
@@ -50,7 +52,7 @@ object DummyRepository {
         BoardGames(
             4, R.drawable.through_the_ages, "쓰루 디 에이지스(신판)", 2015, 4.14f, 54, 242,
             listOf(TagList.getThemeId("문명"), TagList.getThemeId("경제")),
-            "2~4명", "240분", "12세 이상",
+            2,4, 120,120, 14,
             listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3pZAg7f", 6.48f, listOf()
         ),
 
@@ -62,14 +64,14 @@ object DummyRepository {
                 TagList.getThemeId("판타지"),
                 TagList.getThemeId("테라포밍")
             ),
-            "1~4명 (4인 추천)", "60~150분", "12세 이상",
+            1,4, 60,150, 12,
             listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s48d8u", 7.23f, listOf(4, 8, 1, 3)
         ),
 
         BoardGames(
             6, R.drawable.twilight_struggle, "황혼의 투쟁", 2005, 3.76f, 125, 389,
             listOf(TagList.getThemeId("현대전"), TagList.getThemeId("정치"), TagList.getThemeId("워게임")),
-            "2명", "180분", "13세 이상",
+            2,2, 120,180, 13,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("워게임")),
             "https://bit.ly/2LfIXLU", 5.89f, listOf()
         ),
@@ -77,14 +79,15 @@ object DummyRepository {
         BoardGames(
             7, R.drawable.puerto_rico, "푸에르토 리코", 2002, 2.89f, 137, 560,
             listOf(TagList.getThemeId("도시건설"), TagList.getThemeId("경제"), TagList.getThemeId("농사")),
-            "2~5명 (4인 추천)", "90~150분", "12세 이상",
+            3,5, 90,150, 12,
             listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s1qYtk", 6.77f, listOf()
         )
     )
 
     fun getList() = dummyDataList
-    fun getSomeList() = listOf(dummyDataList[1], dummyDataList[0], dummyDataList[5])
     fun getItem(id: Int): BoardGames? = dummyDataList.find { it.id == id }
+
+    // 단어를 기준으로 검색
     fun searchResultList(title: String?): MutableList<BoardGames> {
         var items: MutableList<BoardGames> = mutableListOf()
 
@@ -103,13 +106,41 @@ object DummyRepository {
         }
         return items
     }
-    fun getTitleList(): List<String?> = dummyDataList.map { it.gameTitle }
+    fun getTitleList(): List<String?> = dummyDataList.map { it.gameTitle } // item의 title만 return
+    fun getThemeTitleList(list : List<Int>) : List<String> = list.map { TagList.getThemeTitle(it) } // theme id -> title
 
-    fun getThemeTitleList(list : List<Int>) : MutableList<String> {
-        var items : MutableList<String> = mutableListOf()
-        for (item in list) {
-            items.add(TagList.getThemeTitle(item))
+    // 선택한 필터를 적용한 list return
+    fun filtering(genreList : ArrayList<String>, themeList : ArrayList<String>,
+                  numPeople : Int, levelMin : Int, levelMax : Int) : List<BoardGames> {
+        var filteredList = dummyDataList.toList()
+
+        filteredList = filteredList.filter { item -> item.peopleMin <= numPeople && numPeople <= item.peopleMax }
+        filteredList = filteredList.filter { item -> (levelMin.toFloat()) <= item.gameLevel!! && item.gameLevel!! <= (levelMax.toFloat()) }
+
+        val genreFiltered = tagFiltering(filteredList, genreList, true).toSet()
+        val themeFiltered = tagFiltering(filteredList, themeList, false).toSet()
+        filteredList = genreFiltered.union(themeFiltered).toList()
+
+        return filteredList
+    }
+    private fun tagFiltering(nowFiltered: List<BoardGames>, filteringTagList: ArrayList<String>, isGenre: Boolean) : List<BoardGames> {
+        if (nowFiltered.isEmpty())
+            return nowFiltered
+
+        val tmpList = mutableMapOf<Int, Int>()
+        for (item in nowFiltered) {
+            val cnt: Int? =
+                if (isGenre) item.genreList?.count { TagList.getGenreTitle(it) in filteringTagList }
+                else item.genreList?.count { TagList.getThemeTitle(it) in filteringTagList }
+
+            if (cnt!! > 0) {
+                tmpList[item.id] = cnt
+            }
         }
-        return items
+        Log.i("tmpList", tmpList.toString())
+        // TODO : 더 정확한 순으로 sort 하기
+//        tmpList = tmpList.toList().sortedWith(compareByDescending { it.second }).toMap() as MutableMap<Int, Int>
+
+        return nowFiltered.filter { it.id in tmpList.keys }
     }
 }
