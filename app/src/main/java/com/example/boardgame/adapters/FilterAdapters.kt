@@ -7,24 +7,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.boardgame.databinding.TagItemBinding
 
 class FilterAdapters(var context : Context, var list : List<String>) : RecyclerView.Adapter<FilterAdapters.ItemHolder>() {
+
+    class ItemHolder(val binding : TagItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(tag : String) {
+            binding.tag = tag
+        }
+    }
+
     private var selectedList : ArrayList<String> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = TagItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ItemHolder(itemHolder)
     }
-
     override fun getItemCount(): Int {
         return list.size
     }
-
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         holder.onBind(list[position])
 
-        val binding = holder.binding
-        binding.tagItem.setOnClickListener {
-            binding.tagItem.isSelected = !binding.tagItem.isSelected
-            onClickItem(list[position], binding.tagItem.isSelected)
+        val tagItem = holder.binding.tagItem
+        tagItem.setOnClickListener {
+            tagItem.isSelected = !tagItem.isSelected
+            onClickItem(list[position], tagItem.isSelected)
         }
     }
 
@@ -34,12 +39,10 @@ class FilterAdapters(var context : Context, var list : List<String>) : RecyclerV
         else
             selectedList.remove(tag)
     }
-
     fun getSelectedList() = selectedList
 
-    class ItemHolder(val binding : TagItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(tag : String) {
-            binding.tag = tag
-        }
+    fun selectItem(holder : ItemHolder, position: Int, allBtnIsSelected : Boolean) {
+        holder.binding.tagItem.isSelected = allBtnIsSelected
+        onClickItem(list[position], allBtnIsSelected)
     }
 }
