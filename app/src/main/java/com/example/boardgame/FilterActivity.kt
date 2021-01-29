@@ -1,22 +1,17 @@
 package com.example.boardgame
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.boardgame.adapters.FilterAdapters
-import com.example.boardgame.adapters.ThemeAdpaters
-import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityFilterBinding
 
