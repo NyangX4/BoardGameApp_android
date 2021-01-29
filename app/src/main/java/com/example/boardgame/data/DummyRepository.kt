@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.boardgame.R
 import com.example.boardgame.SearchResultActivity
 import com.example.boardgame.model.BoardGames
+import kotlin.math.max
 import kotlin.time.seconds
 
 // 자동 formating : ctrl + alt + l
@@ -117,30 +118,35 @@ object DummyRepository {
         filteredList = filteredList.filter { item -> item.peopleMin <= numPeople && numPeople <= item.peopleMax }
         filteredList = filteredList.filter { item -> (levelMin.toFloat()) <= item.gameLevel!! && item.gameLevel!! <= (levelMax.toFloat()) }
 
-        val genreFiltered = tagFiltering(filteredList, genreList, true).toSet()
-        val themeFiltered = tagFiltering(filteredList, themeList, false).toSet()
-        filteredList = genreFiltered.union(themeFiltered).toList()
+        var filteredMap = filteredList.map { it.id to 0 }.toMap()
+        filteredMap = tagFiltering(filteredMap, filteredList, genreList, true)
+        filteredMap = tagFiltering(filteredMap, filteredList, themeList, false)
 
-        return filteredList
+        val sortedMap = filteredMap.toList()
+            .filter { it.second > 0 }
+            .sortedWith(compareByDescending { it.second }).toMap()
+        val result : MutableList<BoardGames> = mutableListOf()
+        for (id in sortedMap.keys) {
+            result.add(filteredList.find { it.id == id }!!)
+        }
+
+        return result
     }
-    private fun tagFiltering(nowFiltered: List<BoardGames>, filteringTagList: ArrayList<String>, isGenre: Boolean) : List<BoardGames> {
-        if (nowFiltered.isEmpty())
-            return nowFiltered
 
-        val tmpList = mutableMapOf<Int, Int>()
+    private fun tagFiltering(nowMap: Map<Int, Int>, nowFiltered : List<BoardGames>,
+                             filteringTagList: ArrayList<String>, isGenre: Boolean) : Map<Int, Int> {
+        if (nowFiltered.isEmpty())
+            return nowMap
+
+        val tmpList = nowMap.toMutableMap()
         for (item in nowFiltered) {
             val cnt: Int? =
                 if (isGenre) item.genreList?.count { TagList.getGenreTitle(it) in filteringTagList }
-                else item.genreList?.count { TagList.getThemeTitle(it) in filteringTagList }
+                else item.themeList?.count { TagList.getThemeTitle(it) in filteringTagList }
 
-            if (cnt!! > 0) {
-                tmpList[item.id] = cnt
-            }
+            tmpList[item.id] = tmpList[item.id]?.plus(cnt!!)!!
         }
-        Log.i("tmpList", tmpList.toString())
-        // TODO : 더 정확한 순으로 sort 하기
-//        tmpList = tmpList.toList().sortedWith(compareByDescending { it.second }).toMap() as MutableMap<Int, Int>
 
-        return nowFiltered.filter { it.id in tmpList.keys }
+        return tmpList
     }
 }
