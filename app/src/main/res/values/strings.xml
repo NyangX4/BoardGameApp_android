@@ -12,4 +12,7 @@
     <string name="theme">테마</string>
     <string name="rate_preview">$60 Excepteur occacat cupidata Entire home/apt, 1 bed</string>
     <string name="search_hint">Search board games</string>
+
+    <string name="nav_open">Nav Open</string>
+    <string name="nav_close">Nav Close</string>
 </resources>

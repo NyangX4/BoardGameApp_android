@@ -2,10 +2,7 @@ package com.example.boardgame.data
 
 import android.util.Log
 import com.example.boardgame.R
-import com.example.boardgame.SearchResultActivity
 import com.example.boardgame.model.BoardGames
-import kotlin.math.max
-import kotlin.time.seconds
 
 // 자동 formating : ctrl + alt + l
 
