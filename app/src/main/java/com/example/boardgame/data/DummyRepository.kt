@@ -2,10 +2,7 @@ package com.example.boardgame.data
 
 import android.util.Log
 import com.example.boardgame.R
-import com.example.boardgame.SearchResultActivity
 import com.example.boardgame.model.BoardGames
-import kotlin.math.max
-import kotlin.time.seconds
 
 // 자동 formating : ctrl + alt + l
 
@@ -111,12 +108,16 @@ object DummyRepository {
     fun getThemeTitleList(list : List<Int>) : List<String> = list.map { TagList.getThemeTitle(it) } // theme id -> title
 
     // 선택한 필터를 적용한 list return
-    fun filtering(genreList : ArrayList<String>, themeList : ArrayList<String>,
-                  numPeople : Int, levelMin : Int, levelMax : Int) : List<BoardGames> {
+    fun filtering(genreList : ArrayList<String> = arrayListOf(), themeList : ArrayList<String> = arrayListOf(),
+                  numPeople : Int = -1, levelMin : Int = -1, levelMax : Int = 6) : List<BoardGames> {
         var filteredList = dummyDataList.toList()
 
-        filteredList = filteredList.filter { item -> item.peopleMin <= numPeople && numPeople <= item.peopleMax }
-        filteredList = filteredList.filter { item -> (levelMin.toFloat()) <= item.gameLevel!! && item.gameLevel!! <= (levelMax.toFloat()) }
+        if (numPeople > -1) {
+            filteredList = filteredList.filter { item -> item.peopleMin <= numPeople && numPeople <= item.peopleMax }
+        }
+        if (levelMin > -1 && levelMax < 6) {
+            filteredList = filteredList.filter { item -> (levelMin.toFloat()) <= item.gameLevel!! && item.gameLevel!! <= (levelMax.toFloat()) }
+        }
 
         var filteredMap = filteredList.map { it.id to 0 }.toMap()
         filteredMap = tagFiltering(filteredMap, filteredList, genreList, true)
@@ -135,7 +136,7 @@ object DummyRepository {
 
     private fun tagFiltering(nowMap: Map<Int, Int>, nowFiltered : List<BoardGames>,
                              filteringTagList: ArrayList<String>, isGenre: Boolean) : Map<Int, Int> {
-        if (nowFiltered.isEmpty())
+        if (nowFiltered.isEmpty() || filteringTagList.isEmpty())
             return nowMap
 
         val tmpList = nowMap.toMutableMap()
