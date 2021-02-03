@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.content.ContextCompat
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.data.DummyRepository
+import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityMainBinding
 import com.example.boardgame.model.BoardGames
 
@@ -31,25 +34,23 @@ class MainActivity : AppCompatActivity() {
         binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
         binding.gamesRecyclerview.setHasFixedSize(true)
 
+        // no filter list show
+        binding.mainFilterApplyLayout.visibility = View.GONE
+        binding.mainFilterXBtn.setOnClickListener {
+            binding.toolbar.title = "보드게임"
+
+            binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
+            binding.mainFilterApplyLayout.visibility = View.GONE
+
+            // drawer menu 에서 선택된거 없애기
+            binding.navListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, TagList.getGenreList())
+        }
+
         // toolbar 설정하기
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // drawable menu
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.nav_open, R.string.nav_close)
-        binding.drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        binding.navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_strategy -> Toast.makeText(this, "전략게임", Toast.LENGTH_SHORT).show()
-                R.id.nav_theme -> Toast.makeText(this, "테마게임", Toast.LENGTH_SHORT).show()
-                R.id.nav_wargames -> Toast.makeText(this, "워게임", Toast.LENGTH_SHORT).show()
-            }
-            true
-        }
-
-        binding.mainFilterApplyLayout.visibility = View.GONE
+        // drawer menu
+        setDrawerMenu()
     }
 
     // toolbar
@@ -70,7 +71,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // navigation menu
+        // drawer menu
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
@@ -93,14 +94,28 @@ class MainActivity : AppCompatActivity() {
                 binding.mainFilterApplyLayout.visibility = View.VISIBLE
                 binding.gamesRecyclerview.adapter = GamesAdapters(this,
                     DummyRepository.filtering(genreList, themeList, numPeople, levelMin, levelMax))
-
-                // no filter list show
-                binding.mainFilterXBtn.setOnClickListener {
-                    binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
-                    binding.mainFilterApplyLayout.visibility = View.GONE
-                }
             }
         }
+    }
+
+    // drawer menu
+    private fun setDrawerMenu() {
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.nav_open, R.string.nav_close)
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        val genreList = TagList.getGenreList()
+        binding.navListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, genreList)
+        binding.navListView.setOnItemClickListener { parent, view, position, id ->
+            binding.toolbar.title = genreList[position]
+
+            binding.mainFilterApplyLayout.visibility = View.VISIBLE
+            binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.filtering(arrayListOf(genreList[position])))
+
+            // close nav menu
+            binding.drawerLayout.closeDrawer(Gravity.LEFT)
+        }
+
     }
 
 }
