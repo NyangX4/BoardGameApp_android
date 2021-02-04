@@ -61,6 +61,12 @@ class DetailActivity : AppCompatActivity() {
             val intent = Intent(binding.root.context, RateMoreActivity::class.java)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
+
+        // rate activity
+        binding.detailRateBtn.setOnClickListener {
+            val intent = Intent(binding.root.context, RateActivity::class.java)
+            ContextCompat.startActivity(binding.root.context, intent, null)
+        }
     }
 
     private fun setSimilarDataList(list : List<Int>?): MutableList<BoardGames> {

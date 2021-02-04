@@ -15,4 +15,8 @@
 
     <string name="nav_open">Nav Open</string>
     <string name="nav_close">Nav Close</string>
+    <string name="rating_guide">
+        누구나 하기 쉬움 (1점)\n조금만 배우면 할 수 있음 (2점)\n게이머가 아니면 조금 힘들 수 있음 (3점)\n게이머스 게임 (4점)\n매우 어려움 (5점)
+    </string>
+
 </resources>

@@ -8,6 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="filter_select_all_no_clicked">#00FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
     <color name="filter_select_all_clicked">#7b7b7b</color>
 </resources>
