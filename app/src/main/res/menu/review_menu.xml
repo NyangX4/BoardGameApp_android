@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/rate_delete"
+        android:id="@+id/review_delete"
         android:icon="@drawable/ic_delete"
         android:title="delete"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/rate_save"
+        android:id="@+id/review_save"
         android:icon="@drawable/ic_check"
         android:title="save"
         app:showAsAction="ifRoom" />

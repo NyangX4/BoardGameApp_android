@@ -3,7 +3,6 @@ package com.example.boardgame
 import android.content.Intent
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -58,14 +57,14 @@ class DetailActivity : AppCompatActivity() {
 
         // rate more activity
         binding.detailRateMoreBtn.setOnClickListener {
-            val intent = Intent(binding.root.context, RateMoreActivity::class.java)
+            val intent = Intent(binding.root.context, ReviewMoreActivity::class.java)
             intent.putExtra("gameId", id)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
 
         // rate activity
         binding.detailRateBtn.setOnClickListener {
-            val intent = Intent(binding.root.context, RateActivity::class.java)
+            val intent = Intent(binding.root.context, ReviewActivity::class.java)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
     }

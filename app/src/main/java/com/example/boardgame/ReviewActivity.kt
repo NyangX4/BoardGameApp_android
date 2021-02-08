@@ -7,16 +7,16 @@ import android.view.MenuItem
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.example.boardgame.databinding.ActivityRateBinding
+import com.example.boardgame.databinding.ActivityReviewBinding
 
-class RateActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityRateBinding
+class ReviewActivity : AppCompatActivity() {
+    private lateinit var binding : ActivityReviewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_rate)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_review)
 
-        setSupportActionBar(binding.rateToolbar)
+        setSupportActionBar(binding.reviewToolbar)
         supportActionBar?.apply {
             title = ""
             // show back button on toolbar
@@ -24,9 +24,9 @@ class RateActivity : AppCompatActivity() {
         }
 
         // seekbar
-        binding.rateSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+        binding.reviewSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                binding.rateLevelShow.text = (progress.toFloat() / 2).toString()
+                binding.reviewLevelShow.text = (progress.toFloat() / 2).toString()
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -36,13 +36,13 @@ class RateActivity : AppCompatActivity() {
 
     // toolbar
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.rate_menu, menu)
+        menuInflater.inflate(R.menu.review_menu, menu)
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.rate_delete -> Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show()
-            R.id.rate_save -> Toast.makeText(this, "save", Toast.LENGTH_SHORT).show()
+            R.id.review_delete -> Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show()
+            R.id.review_save -> Toast.makeText(this, "save", Toast.LENGTH_SHORT).show()
         }
 
         return super.onOptionsItemSelected(item)

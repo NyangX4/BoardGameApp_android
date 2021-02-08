@@ -8,10 +8,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        tools:context=".RateActivity">
+        tools:context=".ReviewActivity">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/rate_toolbar"
+            android:id="@+id/review_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/purple_200"
@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <RatingBar
-            android:id="@+id/rating_bar"
+            android:id="@+id/review_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -30,10 +30,10 @@
             android:rating="0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_toolbar" />
+            app:layout_constraintTop_toBottomOf="@id/review_toolbar" />
 
         <TextView
-            android:id="@+id/rate_name_tv"
+            android:id="@+id/review_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -45,10 +45,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rating_bar" />
+            app:layout_constraintTop_toBottomOf="@id/review_bar" />
 
         <EditText
-            android:id="@+id/rate_edit_name"
+            android:id="@+id/review_edit_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -59,10 +59,10 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_name_tv" />
+            app:layout_constraintTop_toBottomOf="@id/review_name_tv" />
 
         <TextView
-            android:id="@+id/rate_pwd_tv"
+            android:id="@+id/review_pwd_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -72,10 +72,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_edit_name" />
+            app:layout_constraintTop_toBottomOf="@id/review_edit_name" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/review_pwd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -86,10 +86,10 @@
             android:layout_marginBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_pwd_tv"/>
+            app:layout_constraintTop_toBottomOf="@id/review_pwd_tv"/>
 
         <TextView
-            android:id="@+id/rate_level_tv"
+            android:id="@+id/review_level_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -98,10 +98,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/editTextTextPassword" />
+            app:layout_constraintTop_toBottomOf="@id/review_pwd" />
 
         <TextView
-            android:id="@+id/rate_guide_tv"
+            android:id="@+id/review_guide_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/rating_guide"
@@ -112,10 +112,10 @@
             android:layout_marginRight="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_level_tv"/>
+            app:layout_constraintTop_toBottomOf="@id/review_level_tv"/>
 
         <TextView
-            android:id="@+id/rate_level_show"
+            android:id="@+id/review_level_show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -124,10 +124,10 @@
             android:text="2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_guide_tv" />
+            app:layout_constraintTop_toBottomOf="@id/review_guide_tv" />
 
         <SeekBar
-            android:id="@+id/rate_seekbar"
+            android:id="@+id/review_seekbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:progressDrawable="@drawable/seekbar_custom"
@@ -141,10 +141,10 @@
             android:paddingEnd="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_level_show"/>
+            app:layout_constraintTop_toBottomOf="@id/review_level_show"/>
 
         <TextView
-            android:id="@+id/rate_review_tv"
+            android:id="@+id/review_content_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -156,10 +156,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_seekbar" />
+            app:layout_constraintTop_toBottomOf="@id/review_seekbar" />
 
         <EditText
-            android:id="@+id/rate_review_edit"
+            android:id="@+id/review_content_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
@@ -170,7 +170,7 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rate_review_tv" />
+            app:layout_constraintTop_toBottomOf="@id/review_content_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
