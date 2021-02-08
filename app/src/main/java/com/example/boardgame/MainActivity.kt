@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         // no filter list show
         binding.mainFilterApplyLayout.visibility = View.GONE
-        binding.mainFilterXBtn.setOnClickListener {
+        binding.mainFilterXBtn.setOnClickListener { 
             binding.toolbar.title = "보드게임"
 
             binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())

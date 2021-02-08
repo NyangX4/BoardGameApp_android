@@ -56,9 +56,10 @@ class DetailActivity : AppCompatActivity() {
             // TODO : activity가 종료되어도 그대로 남아있기
         }
 
-        // filter more activity
+        // rate more activity
         binding.detailRateMoreBtn.setOnClickListener {
             val intent = Intent(binding.root.context, RateMoreActivity::class.java)
+            intent.putExtra("gameId", id)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
 
