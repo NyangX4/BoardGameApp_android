@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var toggle : ActionBarDrawerToggle
 
+    private var backBtnTime : Long = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -115,7 +117,19 @@ class MainActivity : AppCompatActivity() {
             // close nav menu
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
         }
-
     }
 
+    // 두 번 눌러 앱 종료
+    override fun onBackPressed() {
+        val currTime = System.currentTimeMillis()
+        val diffTime = currTime - backBtnTime
+
+        if (diffTime in 0..2000) {
+            super.onBackPressed()
+        }
+        else {
+            backBtnTime = currTime
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

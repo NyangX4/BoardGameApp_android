@@ -26,8 +26,6 @@ class ReviewDetailActivity : AppCompatActivity() {
             title = ""
             setDisplayHomeAsUpEnabled(true)
         }
-
-//        binding.reviewDetailRateBar.rating = data!!.rate
     }
 
     // toolbar

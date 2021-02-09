@@ -1,11 +1,13 @@
 package com.example.boardgame
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SeekBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.example.boardgame.databinding.ActivityReviewBinding
 
@@ -46,6 +48,24 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onBackPressed() {
+        val builder = AlertDialog.Builder(this)
+
+        builder.apply {
+            setMessage("저장하시겠습니까?")
+            setPositiveButton("예", DialogInterface.OnClickListener { dialog, which ->
+                Toast.makeText(applicationContext, "예", Toast.LENGTH_SHORT).show()
+                return@OnClickListener
+            })
+            setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, which ->
+                finish()
+            })
+        }
+
+        val alertDialog = builder.create()
+        alertDialog.show()
     }
     // 뒤로가기 버튼
     override fun onSupportNavigateUp(): Boolean {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -30,17 +30,17 @@
             android:paddingRight="30dp">
 
             <TextView
-                android:id="@+id/rate_more_name"
+                android:id="@+id/review_more_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@{review.name}"
-                app:layout_constraintBottom_toTopOf="@+id/rate_more_detail"
+                app:layout_constraintBottom_toTopOf="@+id/review_more_detail"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/rate_more_hour"
+                android:id="@+id/review_more_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -48,15 +48,15 @@
                 android:layout_marginBottom="8dp"
                 android:text="@{review.dateToString()}"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/rate_more_detail"
-                app:layout_constraintStart_toEndOf="@+id/rate_more_name"
+                app:layout_constraintBottom_toTopOf="@+id/review_more_detail"
+                app:layout_constraintStart_toEndOf="@+id/review_more_name"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/rate_more_detail"
+                android:id="@+id/review_more_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{review.content}"
+                android:text="@{review.contentThumbnail()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

@@ -35,6 +35,7 @@
             android:layout_marginLeft="24dp"
             android:layout_marginTop="24dp"
             android:text="@{review.name}"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/review_detail_toolbar" />
@@ -68,12 +69,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
+            android:isIndicator="true"
             android:numStars="5"
             android:rating="@{review.rate}"
-            android:isIndicator="true"
             app:layout_constraintStart_toEndOf="@+id/review_detail_rate"
-            app:layout_constraintTop_toBottomOf="@+id/review_detail_name" />
+            app:layout_constraintTop_toBottomOf="@+id/review_detail_date" />
 
         <TextView
             android:id="@+id/review_detail_level_tv"
@@ -92,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="19dp"
             android:text="@{review.gameLevelToString()}"
             app:layout_constraintStart_toEndOf="@+id/review_detail_level_tv"
             app:layout_constraintTop_toBottomOf="@+id/review_detail_rateBar" />
