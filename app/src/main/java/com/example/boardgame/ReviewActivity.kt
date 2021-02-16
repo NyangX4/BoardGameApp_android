@@ -1,6 +1,5 @@
 package com.example.boardgame
 
-import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -9,14 +8,18 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import com.example.boardgame.data.ReviewList
 import com.example.boardgame.databinding.ActivityReviewBinding
+import com.example.boardgame.model.Review
 
 class ReviewActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityReviewBinding
+    private lateinit var binding: ActivityReviewBinding
+    private var gameId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review)
+        gameId = intent.getIntExtra("gameId", 0)
 
         setSupportActionBar(binding.reviewToolbar)
         supportActionBar?.apply {
@@ -41,6 +44,7 @@ class ReviewActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.review_menu, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.review_delete -> Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show()
@@ -55,18 +59,29 @@ class ReviewActivity : AppCompatActivity() {
 
         builder.apply {
             setMessage("저장하시겠습니까?")
-            setPositiveButton("예", DialogInterface.OnClickListener { dialog, which ->
-                Toast.makeText(applicationContext, "예", Toast.LENGTH_SHORT).show()
-                return@OnClickListener
-            })
-            setNegativeButton("아니오", DialogInterface.OnClickListener { dialog, which ->
+            setPositiveButton("예") { dialog, which ->
+                // TODO : 새로운 리뷰 저장하기
+                ReviewList.addReview(Review(
+                    ReviewList.nowId++,
+                    gameId,
+                    binding.reviewEditName.text.toString(),
+                    binding.reviewPwd.text.toString(),
+                    System.currentTimeMillis(),
+                    binding.reviewRatebar.rating,
+                    binding.reviewLevelShow.text.toString().toFloat(),
+                    binding.reviewContentEdit.text.toString()
+                ))
                 finish()
-            })
+            }
+            setNegativeButton("아니오") { dialog, which ->
+                finish()
+            }
         }
 
         val alertDialog = builder.create()
         alertDialog.show()
     }
+
     // 뒤로가기 버튼
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

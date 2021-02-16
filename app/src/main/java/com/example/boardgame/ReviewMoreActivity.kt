@@ -15,6 +15,8 @@ import com.example.boardgame.databinding.ActivityReviewMoreBinding
 
 class ReviewMoreActivity : AppCompatActivity() {
     private lateinit var binding : ActivityReviewMoreBinding
+    private lateinit var reviewAdapter : ReviewAdapters
+    private var gameId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +30,11 @@ class ReviewMoreActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        val gameId = intent.getIntExtra("gameId", 0)
+        gameId = intent.getIntExtra("gameId", 0)
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
         // recycler view
         binding.reviewMoreRecycler.layoutManager = LinearLayoutManager(this)
-        binding.reviewMoreRecycler.adapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+        binding.reviewMoreRecycler.adapter = reviewAdapter
         binding.reviewMoreRecycler.setHasFixedSize(true)
     }
 
@@ -44,10 +47,16 @@ class ReviewMoreActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.review_more_refresh -> Toast.makeText(this, "refresh", Toast.LENGTH_SHORT).show()
+            R.id.review_more_refresh -> {
+                reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+                binding.reviewMoreRecycler.adapter = reviewAdapter
+            }
             R.id.review_more_add -> {
                 val intent = Intent(binding.root.context, ReviewActivity::class.java)
+                intent.putExtra("gameId", gameId)
                 ContextCompat.startActivity(binding.root.context, intent, null)
+
+                reviewAdapter.notifyDataSetChanged()
             }
         }
 
