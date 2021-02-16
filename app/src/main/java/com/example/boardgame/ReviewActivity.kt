@@ -1,5 +1,6 @@
 package com.example.boardgame
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -14,12 +15,12 @@ import com.example.boardgame.model.Review
 
 class ReviewActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewBinding
-    private var gameId = 0
+//    private var gameId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review)
-        gameId = intent.getIntExtra("gameId", 0)
+//        gameId = intent.getIntExtra("gameId", 0)
 
         setSupportActionBar(binding.reviewToolbar)
         supportActionBar?.apply {
@@ -48,7 +49,16 @@ class ReviewActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.review_delete -> Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show()
-            R.id.review_save -> Toast.makeText(this, "save", Toast.LENGTH_SHORT).show()
+            R.id.review_save -> {
+                val intent = Intent()
+                intent.putExtra("name", binding.reviewEditName.text.toString())
+                intent.putExtra("pwd", binding.reviewPwd.text.toString())
+                intent.putExtra("rating", binding.reviewRatebar.rating)
+                intent.putExtra("gameLevel", binding.reviewLevelShow.text.toString().toFloat())
+                intent.putExtra("content", binding.reviewContentEdit.text.toString())
+                setResult(RESULT_OK, intent)
+                finish()
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -60,17 +70,13 @@ class ReviewActivity : AppCompatActivity() {
         builder.apply {
             setMessage("저장하시겠습니까?")
             setPositiveButton("예") { dialog, which ->
-                // TODO : 새로운 리뷰 저장하기
-                ReviewList.addReview(Review(
-                    ReviewList.nowId++,
-                    gameId,
-                    binding.reviewEditName.text.toString(),
-                    binding.reviewPwd.text.toString(),
-                    System.currentTimeMillis(),
-                    binding.reviewRatebar.rating,
-                    binding.reviewLevelShow.text.toString().toFloat(),
-                    binding.reviewContentEdit.text.toString()
-                ))
+                val intent = Intent()
+                intent.putExtra("name", binding.reviewEditName.text.toString())
+                intent.putExtra("pwd", binding.reviewPwd.text.toString())
+                intent.putExtra("rating", binding.reviewRatebar.rating)
+                intent.putExtra("gameLevel", binding.reviewLevelShow.text.toString().toFloat())
+                intent.putExtra("content", binding.reviewContentEdit.text.toString())
+                setResult(RESULT_OK, intent)
                 finish()
             }
             setNegativeButton("아니오") { dialog, which ->

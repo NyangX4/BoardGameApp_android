@@ -58,5 +58,5 @@ class Review : Comparable<Review> {
     }
 
     fun gameLevelToString() : String = "$gameLevel / 5"
-    fun contentThumbnail() : String = "${content!!.substring(0..50)}..."
+    fun contentThumbnail() : String = if (content!!.length > 50) "${content!!.substring(0..50)}..." else content!!
 }

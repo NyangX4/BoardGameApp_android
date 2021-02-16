@@ -10,11 +10,11 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="2dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp"
         app:cardCornerRadius="5dp"
         app:cardElevation="5dp"
@@ -24,10 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#f5f5f5"
-            android:paddingTop="10dp"
-            android:paddingBottom="20dp"
             android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:paddingTop="10dp"
+            android:paddingRight="30dp"
+            android:paddingBottom="20dp">
 
             <TextView
                 android:id="@+id/review_more_name"
@@ -54,7 +54,7 @@
 
             <TextView
                 android:id="@+id/review_more_detail"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@{review.contentThumbnail()}"
                 app:layout_constraintBottom_toBottomOf="parent"

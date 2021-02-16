@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.adapters.ReviewAdapters
+import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.data.ReviewList
 import com.example.boardgame.databinding.ActivityReviewMoreBinding
+import com.example.boardgame.model.Review
 
 class ReviewMoreActivity : AppCompatActivity() {
     private lateinit var binding : ActivityReviewMoreBinding
@@ -53,10 +57,7 @@ class ReviewMoreActivity : AppCompatActivity() {
             }
             R.id.review_more_add -> {
                 val intent = Intent(binding.root.context, ReviewActivity::class.java)
-                intent.putExtra("gameId", gameId)
-                ContextCompat.startActivity(binding.root.context, intent, null)
-
-                reviewAdapter.notifyDataSetChanged()
+                startActivityForResult(intent, 1)
             }
         }
 
@@ -67,5 +68,31 @@ class ReviewMoreActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // get data from Review activity
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) run {
+                val name = data?.getStringExtra("name")
+                val pwd = data?.getStringExtra("pwd")
+                val rating = data?.getFloatExtra("rating", 0.0f)
+                val gameLevel = data?.getFloatExtra("gameLevel", 0.0f)
+                val content = data?.getStringExtra("content")
+
+                ReviewList.addReview(
+                    Review(
+                        ReviewList.nowId++, gameId, name!!, pwd!!, System.currentTimeMillis(),
+                        rating!!, gameLevel!!, content!!)
+                )
+
+                // adapter refresh
+                // TODO : code check
+                reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+                binding.reviewMoreRecycler.adapter = reviewAdapter
+            }
+        }
     }
 }
