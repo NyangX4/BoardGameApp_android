@@ -9,6 +9,7 @@ class Review : Comparable<Review> {
     var name: String? = null
     var pwd: String? = null
     var date: Long = 0L // 평가를 작성한 날짜 (System.currentTimeMillis())
+    var isEdit : Boolean = false
     var rate : Float = 0.0f
     var gameLevel : Float = 0.0f
     var content: String? = null
@@ -54,7 +55,26 @@ class Review : Comparable<Review> {
             }
             msg = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(date)
         }
+
+        if (this.isEdit) msg += "(수정됨)"
+
         return msg
+    }
+
+    // review 수정하기
+    fun editReview(name : String, pwd : String, rate: Float, gameLevel: Float, content: String) {
+        this.name = name
+        this.pwd = pwd
+
+        // rate, gameLevel, content가 바뀌었을 때만 date 변경하기
+        if (this.rate != rate || this.gameLevel != gameLevel || this.content != content){
+            this.date = System.currentTimeMillis()
+            this.isEdit = true
+        }
+
+        this.rate = rate
+        this.gameLevel = gameLevel
+        this.content = content
     }
 
     fun gameLevelToString() : String = "$gameLevel / 5"

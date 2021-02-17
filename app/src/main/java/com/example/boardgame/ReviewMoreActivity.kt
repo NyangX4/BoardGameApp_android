@@ -5,14 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.adapters.ReviewAdapters
-import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.data.ReviewList
 import com.example.boardgame.databinding.ActivityReviewMoreBinding
 import com.example.boardgame.model.Review
@@ -57,7 +54,8 @@ class ReviewMoreActivity : AppCompatActivity() {
             }
             R.id.review_more_add -> {
                 val intent = Intent(binding.root.context, ReviewActivity::class.java)
-                startActivityForResult(intent, 1)
+                intent.putExtra("gameId", gameId)
+                ContextCompat.startActivity(binding.root.context, intent, null)
             }
         }
 
@@ -70,29 +68,12 @@ class ReviewMoreActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun onResume() {
+        super.onResume()
 
-        // get data from Review activity
-        if (requestCode == 1) {
-            if (resultCode == RESULT_OK) run {
-                val name = data?.getStringExtra("name")
-                val pwd = data?.getStringExtra("pwd")
-                val rating = data?.getFloatExtra("rating", 0.0f)
-                val gameLevel = data?.getFloatExtra("gameLevel", 0.0f)
-                val content = data?.getStringExtra("content")
-
-                ReviewList.addReview(
-                    Review(
-                        ReviewList.nowId++, gameId, name!!, pwd!!, System.currentTimeMillis(),
-                        rating!!, gameLevel!!, content!!)
-                )
-
-                // adapter refresh
-                // TODO : code check
-                reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
-                binding.reviewMoreRecycler.adapter = reviewAdapter
-            }
-        }
+        // TODO : code check
+        // activity에 다시 들어올 때마다 adapter refresh함
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+        binding.reviewMoreRecycler.adapter = reviewAdapter
     }
 }

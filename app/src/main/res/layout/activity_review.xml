@@ -121,7 +121,6 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="23dp"
             android:layout_marginRight="23dp"
-            android:text="2"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/review_guide_tv" />
@@ -132,7 +131,7 @@
             android:layout_height="wrap_content"
             android:progressDrawable="@drawable/seekbar_custom"
             android:thumb="@color/transparent"
-            android:progress="1"
+            android:progress="0"
             android:max="10"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
