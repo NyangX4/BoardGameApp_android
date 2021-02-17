@@ -41,6 +41,7 @@ object ReviewList {
     fun getReviewList(gameId : Int) = dummyReview.sorted().filter { it.gameId == gameId }
     fun getReview(reviewId : Int) : Review? = dummyReview.find { it.id == reviewId }
     fun addReview(new : Review) = dummyReview.add(new)
+    fun removeReview(reviewId: Int) = dummyReview.remove(dummyReview.find { it.id == reviewId }) // TODO : code check
 
     private fun dateToMills(date: String): Long {
         val date = SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault()).parse(date)

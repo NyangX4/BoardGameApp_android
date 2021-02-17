@@ -62,9 +62,27 @@ class ReviewActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.review_delete -> Toast.makeText(this, "delete", Toast.LENGTH_SHORT).show()
+            R.id.review_delete -> {
+                // review 삭제
+                val checkBuilder = AlertDialog.Builder(this)
+                checkBuilder.apply {
+                    setMessage("작성 중인 리뷰를 삭제하시겠습니까?")
+                    setPositiveButton("예") { dialog, which ->
+                        if (reviewId > 0 && gameId == 0) ReviewList.removeReview(reviewId)
+
+                        Toast.makeText(applicationContext, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                    setNegativeButton("아니오") { dialog, which ->
+                        dialog.dismiss()
+                    }
+                }
+                val checkDialog = checkBuilder.create()
+                checkDialog.show()
+            }
             R.id.review_save -> {
                 if (gameId > 0 && reviewId == 0) {
+                    // 새로운 review 추가
                     ReviewList.addReview(
                         Review(
                             ReviewList.nowId++,
@@ -77,8 +95,11 @@ class ReviewActivity : AppCompatActivity() {
                             binding.reviewContentEdit.text.toString()
                         )
                     )
+
+                    Toast.makeText(applicationContext, "저장되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 else if (reviewId > 0 && gameId == 0) {
+                    // review 수정
                     ReviewList.getReview(reviewId)?.editReview(
                         binding.reviewEditName.text.toString(),
                         binding.reviewPwd.text.toString(),
@@ -86,6 +107,8 @@ class ReviewActivity : AppCompatActivity() {
                         binding.reviewLevelShow.text.toString().toFloat(),
                         binding.reviewContentEdit.text.toString()
                     )
+
+                    Toast.makeText(applicationContext, "수정되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 finish()
             }
@@ -101,6 +124,7 @@ class ReviewActivity : AppCompatActivity() {
             setMessage("저장하시겠습니까?")
             setPositiveButton("예") { dialog, which ->
                 if (gameId > 0 && reviewId == 0) {
+                    // 새로운 review 추가
                     ReviewList.addReview(
                         Review(
                             ReviewList.nowId++,
@@ -113,8 +137,11 @@ class ReviewActivity : AppCompatActivity() {
                             binding.reviewContentEdit.text.toString()
                         )
                     )
+
+                    Toast.makeText(applicationContext, "저장되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 else if (reviewId > 0 && gameId == 0) {
+                    // review 수정
                     ReviewList.getReview(reviewId)?.editReview(
                         binding.reviewEditName.text.toString(),
                         binding.reviewPwd.text.toString(),
@@ -122,14 +149,18 @@ class ReviewActivity : AppCompatActivity() {
                         binding.reviewLevelShow.text.toString().toFloat(),
                         binding.reviewContentEdit.text.toString()
                     )
+
+                    Toast.makeText(applicationContext, "수정되었습니다.", Toast.LENGTH_SHORT).show()
                 }
                 finish()
             }
             setNegativeButton("아니오") { dialog, which ->
                 finish()
             }
-            show()
         }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     // 뒤로가기 버튼

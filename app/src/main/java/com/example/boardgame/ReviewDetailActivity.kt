@@ -1,5 +1,6 @@
 package com.example.boardgame
 
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,7 +18,7 @@ import com.example.boardgame.model.Review
 
 class ReviewDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReviewDetailBinding
-    private var reviewId: Int? = null
+    private var reviewId: Int = 0
     private var review: Review? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,33 +44,63 @@ class ReviewDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val builder = AlertDialog.Builder(this)
+        val dialogView = layoutInflater.inflate(R.layout.check_pwd_popup, null)
+        val pwdEdit = dialogView.findViewById<EditText>(R.id.check_pwd_edit)
+
+        builder.apply {
+            setView(dialogView)
+            setPositiveButton("확인", null)
+            setNegativeButton("취소") { dialog, which ->
+                // dialog 닫기
+                dialog.dismiss()
+            }
+        }
+
         when (item.itemId) {
             R.id.review_detail_delete -> {
-                Toast.makeText(this, "detail exit", Toast.LENGTH_SHORT).show()
+                val dialog = builder.create()
+                dialog.show()
 
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    if (pwdEdit.text.toString() == review!!.pwd) {
+                        dialog.dismiss()
+
+                        // review 삭제
+                        val checkBuilder = AlertDialog.Builder(this)
+                        checkBuilder.apply {
+                            setMessage("삭제하시겠습니까?")
+                            setPositiveButton("예") { dialog, which ->
+                                if (reviewId > 0) ReviewList.removeReview(reviewId)
+                                finish()
+                            }
+                            setNegativeButton("아니오") { dialog, which ->
+                                dialog.dismiss()
+                            }
+                        }
+                        val checkDialog = checkBuilder.create()
+                        checkDialog.show()
+                    }
+                    else {
+                        Toast.makeText(applicationContext, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
             R.id.review_detail_edit -> {
-//                Toast.makeText(this, "detail edit", Toast.LENGTH_SHORT).show()
+                val dialog = builder.create()
+                dialog.show()
 
-                val builder = AlertDialog.Builder(this)
-                val dialogView = layoutInflater.inflate(R.layout.check_pwd_popup, null)
-                val pwdEdit = dialogView.findViewById<EditText>(R.id.check_pwd_edit)
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                    if (pwdEdit.text.toString() == review!!.pwd) {
+                        dialog.dismiss()
 
-                builder.apply {
-                    setView(dialogView)
-                    setPositiveButton("확인") { dialog, which ->
-                        if (pwdEdit.text.toString() == review!!.pwd) {
-                            val intent = Intent(binding.root.context, ReviewActivity::class.java)
-                            intent.putExtra("reviewId", reviewId)
-                            ContextCompat.startActivity(binding.root.context, intent, null)
-                        } else {
-                            // TODO : 비밀번호 틀렸다는 warning 보내기
-//                            Log.i("false!", pwdEdit.text.toString())
-                        }
+                        val intent = Intent(binding.root.context, ReviewActivity::class.java)
+                        intent.putExtra("reviewId", reviewId)
+                        ContextCompat.startActivity(binding.root.context, intent, null)
                     }
-                    setNegativeButton("취소") { dialog, which -> }
-
-                    show()
+                    else {
+                        Toast.makeText(applicationContext, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -87,33 +118,10 @@ class ReviewDetailActivity : AppCompatActivity() {
         super.onResume()
 
         // activity에 다시 들어올 때마다 data refresh함
-        review = ReviewList.getReview(reviewId!!)
-        binding.review = review
-    }
+        // 삭제된 review라면 activity 종료
+        review = ReviewList.getReview(reviewId)
 
-//    private fun checkPwd(): Boolean {
-//        val builder = AlertDialog.Builder(this)
-//        val dialogView = layoutInflater.inflate(R.layout.check_pwd_popup, null)
-//        val pwdEdit = dialogView.findViewById<EditText>(R.id.check_pwd_edit)
-//        var result = false
-//
-//        builder.apply {
-//            setView(dialogView)
-//            setPositiveButton("확인") { dialog, which ->
-//                if (pwdEdit.text.toString() == review!!.pwd) {
-//                    result = true
-//
-//                    Log.i("true!", pwdEdit.text.toString())
-//                } else {
-//                    // TODO : 비밀번호 틀렸다는 warning 보내기
-//                    Log.i("false!", pwdEdit.text.toString())
-//                }
-//            }
-//            setNegativeButton("취소") { dialog, which -> }
-//
-//            show()
-//        }
-//
-//        return result
-//    }
+        if (review == null) finish()
+        else binding.review = review
+    }
 }
