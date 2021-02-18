@@ -3,7 +3,6 @@ package com.example.boardgame
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -19,7 +18,6 @@ import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.data.DummyRepository
 import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityMainBinding
-import com.example.boardgame.model.BoardGames
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding

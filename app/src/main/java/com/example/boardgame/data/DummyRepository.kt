@@ -19,7 +19,7 @@ object DummyRepository {
                 TagList.getThemeId("환경")
             ),
             1, 5, 90, 120 , 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3ndxE3U", 8.42f, listOf(1, 2)
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3ndxE3U", 8.42f
         ),
 
         BoardGames(
@@ -31,7 +31,7 @@ object DummyRepository {
                 TagList.getThemeId("전투")
             ),
             1, 4, 60, 120, 12,
-            listOf(TagList.getGenreId("테마게임")), "https://bit.ly/35mZ0i5", 7.43f, listOf(1, 5, 7)
+            listOf(TagList.getGenreId("테마게임")), "https://bit.ly/35mZ0i5", 7.43f
         ),
 
         BoardGames(
@@ -44,14 +44,14 @@ object DummyRepository {
             ),
             1, 4, 60, 240, 14,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("테마게임")),
-            "https://bit.ly/2JYPwlE", 5.32f, listOf(4)
+            "https://bit.ly/2JYPwlE", 5.32f
         ),
 
         BoardGames(
             4, R.drawable.through_the_ages, "쓰루 디 에이지스(신판)", 2015, 4.14f, 54, 242,
             listOf(TagList.getThemeId("문명"), TagList.getThemeId("경제")),
             2,4, 120,120, 14,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3pZAg7f", 6.48f, listOf()
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3pZAg7f", 6.48f
         ),
 
         BoardGames(
@@ -63,7 +63,7 @@ object DummyRepository {
                 TagList.getThemeId("테라포밍")
             ),
             1,4, 60,150, 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s48d8u", 7.23f, listOf(4, 8, 1, 3)
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s48d8u", 7.23f
         ),
 
         BoardGames(
@@ -71,14 +71,14 @@ object DummyRepository {
             listOf(TagList.getThemeId("현대전"), TagList.getThemeId("정치"), TagList.getThemeId("워게임")),
             2,2, 120,180, 13,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("워게임")),
-            "https://bit.ly/2LfIXLU", 5.89f, listOf()
+            "https://bit.ly/2LfIXLU", 5.89f
         ),
 
         BoardGames(
             7, R.drawable.puerto_rico, "푸에르토 리코", 2002, 2.89f, 137, 560,
             listOf(TagList.getThemeId("도시건설"), TagList.getThemeId("경제"), TagList.getThemeId("농사")),
             3,5, 90,150, 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s1qYtk", 6.77f, listOf()
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s1qYtk", 6.77f
         )
     )
 
@@ -108,8 +108,9 @@ object DummyRepository {
     fun getThemeTitleList(list : List<Int>) : List<String> = list.map { TagList.getThemeTitle(it) } // theme id -> title
 
     // 선택한 필터를 적용한 list return
-    fun filtering(genreList : ArrayList<String> = arrayListOf(), themeList : ArrayList<String> = arrayListOf(),
-                  numPeople : Int = -1, levelMin : Int = -1, levelMax : Int = 6) : List<BoardGames> {
+    fun filtering(
+        genreList: ArrayList<String> = arrayListOf(), themeList: ArrayList<String> = arrayListOf(),
+        numPeople: Int = -1, levelMin: Int = -1, levelMax: Int = 6) : List<BoardGames> {
         var filteredList = dummyDataList.toList()
 
         if (numPeople > -1) {

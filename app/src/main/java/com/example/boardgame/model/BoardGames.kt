@@ -19,7 +19,6 @@ class BoardGames {
     var genreList: List<Int>? = null
     var howToPlay: String? = null
     var rate: Float = 0.0f
-    var similarList: List<Int>? = null
 
     constructor(
         id: Int,
@@ -37,8 +36,7 @@ class BoardGames {
         age: Int,
         genreList: List<Int>,
         howToPlay: String,
-        rate: Float,
-        similarList: List<Int>
+        rate: Float
     ) {
         this.id = id
         this.gameImage = gameImage
@@ -56,7 +54,6 @@ class BoardGames {
         this.genreList = genreList
         this.howToPlay = howToPlay
         this.rate = rate
-        this.similarList = similarList
     }
 
     fun yearToString() = "${year}년"

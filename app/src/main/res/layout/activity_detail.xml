@@ -23,9 +23,8 @@
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/purple_200"
                 android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
+                android:theme="@style/Toolbar"
                 app:title="@{boardGame.gameTitle}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +36,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
-                android:background="#00FFFFFF"
+                android:background="@color/transparent"
+                android:tint="@color/colorAccent"
                 android:src="@drawable/ic_search"
                 app:layout_constraintBottom_toBottomOf="@id/detail_toolbar"
                 app:layout_constraintEnd_toEndOf="@id/detail_toolbar"
@@ -352,6 +352,7 @@
                         android:id="@+id/detail_howToPlay_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:onClick="howToPlayOnClick"
                         android:text="@{boardGame.howToPlay}"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -406,6 +407,7 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="5dp"
+                        android:background="@color/transparent"
                         android:text="더보기 >"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toTopOf="@+id/detail_rate_preview"
@@ -420,6 +422,10 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
+                        android:paddingTop="19dp"
+                        android:paddingBottom="19dp"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
                         android:gravity="start"
                         android:text="@string/rate_preview"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -436,6 +442,7 @@
                     android:paddingTop="10dp"
                     android:paddingRight="5dp"
                     android:paddingBottom="10dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/detail_rate_layout">
@@ -470,9 +477,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="#7B7B7B"
                     android:text="평가하기"
-                    android:textColor="#FFFFFF" />
+                    android:background="@drawable/button_outline"
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

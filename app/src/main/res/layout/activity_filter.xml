@@ -13,9 +13,8 @@
             android:id="@+id/filter_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_200"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="@style/Toolbar" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -51,6 +50,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -129,6 +129,7 @@
                         android:layout_marginLeft="25dp"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
+                        android:tint="@color/colorAccent"
                         android:src="@drawable/ic_add"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/filter_people_edit"
@@ -143,6 +144,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
+                        android:tint="@color/colorAccent"
                         android:src="@drawable/ic_remove"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/filter_people_plus"
@@ -168,6 +170,7 @@
                         android:id="@+id/filter_level_spinner_min"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -185,6 +188,7 @@
                         android:id="@+id/filter_level_spinner_max"
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/colorAccent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/filter_max_tv"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -204,6 +208,8 @@
                     android:id="@+id/filter_apply_btn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/button_outline"
+                    android:textColor="@color/white"
                     android:text="적용" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

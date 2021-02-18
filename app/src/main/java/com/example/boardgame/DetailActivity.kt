@@ -1,8 +1,10 @@
 package com.example.boardgame
 
 import android.content.Intent
+import android.net.Uri
 import  androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -11,18 +13,21 @@ import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.adapters.ThemeAdpaters
 import com.example.boardgame.model.BoardGames
 import com.example.boardgame.data.DummyRepository
+import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding
+    private lateinit var data : BoardGames
+    private var gameId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // binding 세팅
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail)
 
-        val id = intent.getIntExtra("id", 0)
-        val data = DummyRepository.getItem(id)
+        gameId = intent.getIntExtra("id", 0)
+        data = DummyRepository.getItem(gameId)!!
         binding.boardGame = data
 
         // back button
@@ -39,9 +44,7 @@ class DetailActivity : AppCompatActivity() {
         binding.detailThemeRecyclerView.setHasFixedSize(true)
 
         // similar recyclerView
-        binding.detailSimilarRecyclerView.layoutManager = GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false)
-        binding.detailSimilarRecyclerView.adapter = GamesAdapters(this, setSimilarDataList(data.similarList))
-        binding.detailSimilarRecyclerView.setHasFixedSize(true)
+        setSimilarRecyclerView()
 
         // search activity
         binding.detailSearchBtn.setOnClickListener {
@@ -58,29 +61,44 @@ class DetailActivity : AppCompatActivity() {
         // review more activity
         binding.detailRateMoreBtn.setOnClickListener {
             val intent = Intent(binding.root.context, ReviewMoreActivity::class.java)
-            intent.putExtra("gameId", id)
+            intent.putExtra("gameId", gameId)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
 
         // review activity
         binding.detailRateBtn.setOnClickListener {
             val intent = Intent(binding.root.context, ReviewActivity::class.java)
-            intent.putExtra("gameId", id)
+            intent.putExtra("gameId", gameId)
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
-    }
-
-    private fun setSimilarDataList(list : List<Int>?): MutableList<BoardGames> {
-        var items: MutableList<BoardGames> = mutableListOf()
-
-        list?.forEach { id -> DummyRepository.getItem(id)?.let { items.add(it) } }
-
-        return items
     }
 
     // 뒤로가기 버튼
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    private fun setSimilarRecyclerView() {
+        val arr : ArrayList<String> = arrayListOf()
+        for (theme in data.themeList!!) {
+            arr.add(TagList.getThemeTitle(theme))
+        }
+
+        val result = DummyRepository.filtering(themeList = arr).filter { it.id != gameId }
+
+        if (result.isNotEmpty()) {
+            binding.detailSimilarLayout.visibility = View.VISIBLE
+
+            // TODO : spanCount를 auto fit으로 바꿔주기
+            binding.detailSimilarRecyclerView.layoutManager = GridLayoutManager(this, 1, LinearLayoutManager.HORIZONTAL, false)
+            binding.detailSimilarRecyclerView.adapter = GamesAdapters(this, result)
+            binding.detailSimilarRecyclerView.setHasFixedSize(true)
+        }
+    }
+
+    fun howToPlayOnClick(view : View) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.howToPlay))
+        startActivity(intent)
     }
 }

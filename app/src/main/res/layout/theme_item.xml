@@ -30,7 +30,7 @@
             android:paddingRight="20dp"
             android:paddingBottom="10dp"
             android:text="@{theme}"
-            android:textColor="#7B7B7B"
+            android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

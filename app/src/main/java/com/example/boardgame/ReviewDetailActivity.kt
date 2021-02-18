@@ -26,7 +26,7 @@ class ReviewDetailActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review_detail)
 
         reviewId = intent.getIntExtra("reviewId", 0)
-        review = ReviewList.getReview(reviewId!!)
+        review = ReviewList.getReview(reviewId)
         binding.review = review
 
         // back button

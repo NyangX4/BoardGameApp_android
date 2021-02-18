@@ -13,9 +13,8 @@
             android:id="@+id/review_more_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/purple_200"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme" />
+            android:theme="@style/Toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/review_more_recycler"
