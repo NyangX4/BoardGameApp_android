@@ -12,7 +12,16 @@
     <color name="filter_select_all_clicked">#7B7B7B</color>
     <color name="background">#F0F0F0</color>
 
-    <color name="colorPrimaryDark">#90DBCC</color>
-    <color name="colorPrimary">#E7F8F5</color>
-    <color name="colorAccent">#37A794</color>
+<!--    <color name="colorPrimaryDark">#90DBCC</color>-->
+<!--    <color name="colorPrimary">#E7F8F5</color>-->
+<!--    <color name="colorAccent">#37A794</color>-->
+
+    <color name="colorPrimaryDark">#BB94EF</color>
+    <color name="colorPrimary">#F4ECFF</color>
+    <color name="colorAccent">#A768FB</color>
+
+<!--    <color name="colorPrimaryDark">#C8C8C8</color>-->
+<!--    <color name="colorPrimary">#F0F0F0</color>-->
+<!--    <color name="colorAccent">#7B7B7B</color>-->
+
 </resources>
