@@ -6,7 +6,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:editTextBackground">@drawable/edit_text_view</item>
+        <item name="android:editTextBackground">@drawable/custom_edit_text</item>
     </style>
 
     <style name="Toolbar" parent="AppTheme">
