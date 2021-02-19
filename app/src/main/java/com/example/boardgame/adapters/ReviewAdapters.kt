@@ -10,7 +10,7 @@ import com.example.boardgame.ReviewDetailActivity
 import com.example.boardgame.databinding.ReviewItemBinding
 import com.example.boardgame.model.Review
 
-class ReviewAdapters(var context: Context, var list: List<Review>) : RecyclerView.Adapter<ReviewAdapters.ItemHolder>() {
+class ReviewAdapters(var context: Context, var list: List<Review>, private val isThumb : Boolean) : RecyclerView.Adapter<ReviewAdapters.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = ReviewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,7 +22,10 @@ class ReviewAdapters(var context: Context, var list: List<Review>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        holder.onBind(list[position])
+        val review = list[position]
+
+        holder.onBind(review)
+        holder.binding.reviewItemContent.text = if (isThumb) review.contentThumbnail() else review.content
     }
 
     class ItemHolder(val binding: ReviewItemBinding) : RecyclerView.ViewHolder(binding.root) {

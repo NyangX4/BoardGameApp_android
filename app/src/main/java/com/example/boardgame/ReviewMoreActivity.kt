@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardgame.adapters.ReviewAdapters
 import com.example.boardgame.data.ReviewList
 import com.example.boardgame.databinding.ActivityReviewMoreBinding
-import com.example.boardgame.model.Review
 
 class ReviewMoreActivity : AppCompatActivity() {
     private lateinit var binding : ActivityReviewMoreBinding
@@ -32,7 +30,7 @@ class ReviewMoreActivity : AppCompatActivity() {
         }
 
         gameId = intent.getIntExtra("gameId", 0)
-        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId), false)
         // recycler view
         binding.reviewMoreRecycler.layoutManager = LinearLayoutManager(this)
         binding.reviewMoreRecycler.adapter = reviewAdapter
@@ -49,7 +47,7 @@ class ReviewMoreActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.review_more_refresh -> {
-                reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+                reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId), false)
                 binding.reviewMoreRecycler.adapter = reviewAdapter
             }
             R.id.review_more_add -> {
@@ -73,7 +71,7 @@ class ReviewMoreActivity : AppCompatActivity() {
 
         // TODO : code check
         // activity에 다시 들어올 때마다 adapter refresh함
-        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId))
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId), false)
         binding.reviewMoreRecycler.adapter = reviewAdapter
     }
 }

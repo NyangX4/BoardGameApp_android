@@ -10,15 +10,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardgame.adapters.GamesAdapters
+import com.example.boardgame.adapters.ReviewAdapters
 import com.example.boardgame.adapters.ThemeAdpaters
 import com.example.boardgame.model.BoardGames
 import com.example.boardgame.data.DummyRepository
+import com.example.boardgame.data.ReviewList
 import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding
     private lateinit var data : BoardGames
+    private lateinit var reviewAdapter : ReviewAdapters
     private var gameId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +68,12 @@ class DetailActivity : AppCompatActivity() {
             ContextCompat.startActivity(binding.root.context, intent, null)
         }
 
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId, 2), true)
+        // review recyclerView
+        binding.detailReviewRecycler.layoutManager = LinearLayoutManager(this)
+        binding.detailReviewRecycler.adapter = reviewAdapter
+        binding.detailReviewRecycler.setHasFixedSize(true)
+
         // review activity
         binding.detailRateBtn.setOnClickListener {
             val intent = Intent(binding.root.context, ReviewActivity::class.java)
@@ -85,6 +94,7 @@ class DetailActivity : AppCompatActivity() {
             arr.add(TagList.getThemeTitle(theme))
         }
 
+        // 테마를 기준으로 비슷한 게임 list를 가져옴
         val result = DummyRepository.filtering(themeList = arr).filter { it.id != gameId }
 
         if (result.isNotEmpty()) {
@@ -97,8 +107,18 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    // url 클릭 시 인터넷창이 열림
     fun howToPlayOnClick(view : View) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(data.howToPlay))
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // TODO : code check
+        // activity에 다시 들어올 때마다 adapter refresh함
+        reviewAdapter = ReviewAdapters(this, ReviewList.getReviewList(gameId, 2), true)
+        binding.detailReviewRecycler.adapter = reviewAdapter
     }
 }

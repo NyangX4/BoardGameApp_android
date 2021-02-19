@@ -382,7 +382,7 @@
                         android:layout_marginLeft="16dp"
                         android:layout_marginBottom="5dp"
                         android:text="@string/rate"
-                        app:layout_constraintBottom_toTopOf="@+id/detail_rate_preview"
+                        app:layout_constraintBottom_toTopOf="@+id/detail_review_recycler"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -395,42 +395,32 @@
                         android:layout_marginBottom="5dp"
                         android:text="@{boardGame.rateToString()}"
                         android:textSize="20sp"
-                        app:layout_constraintBottom_toTopOf="@+id/detail_rate_preview"
+                        app:layout_constraintBottom_toTopOf="@+id/detail_review_recycler"
                         app:layout_constraintEnd_toStartOf="@id/detail_rateMore_btn"
                         app:layout_constraintStart_toEndOf="@+id/detail_rate"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/detail_rateMore_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@drawable/ic_arrow_forward"
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="5dp"
                         android:background="@color/transparent"
-                        android:text="더보기 >"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toTopOf="@+id/detail_rate_preview"
+                        android:tint="@color/colorPrimaryDark"
+                        app:layout_constraintBottom_toTopOf="@+id/detail_review_recycler"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <Button
-                        android:id="@+id/detail_rate_preview"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/detail_review_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginRight="16dp"
-                        android:paddingTop="19dp"
-                        android:paddingBottom="19dp"
-                        android:paddingLeft="25dp"
-                        android:paddingRight="25dp"
-                        android:gravity="start"
-                        android:text="@string/rate_preview"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toStartOf="parent"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

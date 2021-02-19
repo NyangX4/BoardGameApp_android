@@ -30,33 +30,69 @@
             android:paddingBottom="20dp">
 
             <TextView
-                android:id="@+id/review_more_name"
+                android:id="@+id/review_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:text="@{review.name}"
-                app:layout_constraintBottom_toTopOf="@+id/review_more_detail"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/review_item_rateBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/review_more_hour"
+                android:id="@+id/review_item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginBottom="8dp"
                 android:text="@{review.dateToString()}"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toTopOf="@+id/review_more_detail"
-                app:layout_constraintStart_toEndOf="@+id/review_more_name"
+                app:layout_constraintBottom_toTopOf="@+id/review_item_line"
+                app:layout_constraintStart_toEndOf="@+id/review_item_name"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <RatingBar
+                android:id="@+id/review_item_rateBar"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="@{review.rate}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/review_item_name"
+                app:layout_constraintBottom_toTopOf="@+id/review_item_content"/>
+
+            <View
+                android:id="@+id/review_item_line"
+                android:layout_width="1sp"
+                android:layout_height="15dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/filter_select_all_clicked"
+                app:layout_constraintTop_toBottomOf="@+id/review_item_time"
+                app:layout_constraintStart_toEndOf="@+id/review_item_rateBar"
+                app:layout_constraintBottom_toTopOf="@+id/review_item_content"/>
+
             <TextView
-                android:id="@+id/review_more_detail"
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{review.gameLevelToString()}"
+                app:layout_constraintStart_toEndOf="@+id/review_item_line"
+                app:layout_constraintBottom_toTopOf="@+id/review_item_content"/>
+
+            <TextView
+                android:id="@+id/review_item_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@{review.contentThumbnail()}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

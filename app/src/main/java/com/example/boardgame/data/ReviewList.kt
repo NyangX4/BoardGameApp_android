@@ -1,9 +1,11 @@
 package com.example.boardgame.data
 
 import android.util.Log
+import com.example.boardgame.model.BoardGames
 import com.example.boardgame.model.Review
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.min
 
 object ReviewList {
     var nowId = 1
@@ -38,7 +40,11 @@ object ReviewList {
         )
     )
 
-    fun getReviewList(gameId : Int) = dummyReview.sorted().filter { it.gameId == gameId }
+    fun getReviewList(gameId : Int, num : Int = dummyReview.size) : List<Review> {
+        val result = dummyReview.sorted().filter { it.gameId == gameId }
+
+        return result.subList(0, min(num, result.size))
+    }
     fun getReview(reviewId : Int) : Review? = dummyReview.find { it.id == reviewId }
     fun addReview(new : Review) = dummyReview.add(new)
     fun removeReview(reviewId: Int) = dummyReview.remove(dummyReview.find { it.id == reviewId }) // TODO : code check
