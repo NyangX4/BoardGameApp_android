@@ -3,6 +3,7 @@ package com.example.boardgame
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +25,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toggle : ActionBarDrawerToggle
 
     private var backBtnTime : Long = 0L
+    private var isFiltered = false
+    private var genreList : ArrayList<String>? = null
+    private var themeList : ArrayList<String>? = null
+    private var numPeople : Int? = null
+    private var levelMin : Int? = null
+    private var levelMax : Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
             // drawer menu 에서 선택된거 없애기
             binding.navListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, TagList.getGenreList())
+
+            isFiltered = false
         }
 
         // toolbar 설정하기
@@ -63,6 +72,14 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.filter_btn -> {
                 val intent = Intent(binding.root.context, FilterActivity::class.java)
+                if (isFiltered) {
+                    intent.putExtra("isFiltered", true)
+                    intent.putExtra("genreList", genreList)
+                    intent.putExtra("themeList", themeList)
+                    intent.putExtra("numPeople", numPeople)
+                    intent.putExtra("levelMin", levelMin)
+                    intent.putExtra("levelMax", levelMax)
+                }
                 startActivityForResult(intent, 1)
             }
             R.id.search_btn -> {
@@ -85,15 +102,17 @@ class MainActivity : AppCompatActivity() {
         // get data from filter activity
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) run {
-                val genreList : ArrayList<String> = data?.getStringArrayListExtra("genreList") as ArrayList<String>
-                val themeList : ArrayList<String> = data.getStringArrayListExtra("themeList") as ArrayList<String>
-                val numPeople : Int = data.getIntExtra("numPeople", 0)
-                val levelMin : Int = data.getIntExtra("levelMin", 0)
-                val levelMax : Int = data.getIntExtra("levelMax", 0)
+                genreList = data?.getStringArrayListExtra("genreList") as ArrayList<String>
+                themeList = data.getStringArrayListExtra("themeList") as ArrayList<String>
+                numPeople = data.getIntExtra("numPeople", 0)
+                levelMin = data.getIntExtra("levelMin", 0)
+                levelMax = data.getIntExtra("levelMax", 0)
 
                 binding.mainFilterApplyLayout.visibility = View.VISIBLE
                 binding.gamesRecyclerview.adapter = GamesAdapters(this,
-                    DummyRepository.filtering(genreList, themeList, numPeople, levelMin, levelMax))
+                    DummyRepository.filtering(genreList!!, themeList!!, numPeople!!, levelMin!!, levelMax!!))
+
+                isFiltered = true
             }
         }
     }

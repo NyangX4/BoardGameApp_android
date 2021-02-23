@@ -39,10 +39,10 @@ class FilterAdapters(var context : Context, var list : List<String>) : RecyclerV
         else
             selectedList.remove(tag)
     }
-    fun getSelectedList() = selectedList
 
-    fun selectItem(holder : ItemHolder, position: Int, allBtnIsSelected : Boolean) {
-        holder.binding.tagItem.isSelected = allBtnIsSelected
-        onClickItem(list[position], allBtnIsSelected)
+    fun getSelectedList() = selectedList
+    fun selectItem(holder : ItemHolder, position: Int, isSelected : Boolean) {
+        holder.binding.tagItem.isSelected = isSelected
+        onClickItem(list[position], isSelected)
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewTreeObserver
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
@@ -38,8 +39,12 @@ class FilterActivity : AppCompatActivity() {
         setRecyclerView()
         setPeopleBtn()
         // select all button
-        setSelectAll(binding.filterGenreSelectAll, binding.filterGenreRecyclerview, genreAdapter)
-        setSelectAll(binding.filterThemeSelectAll, binding.filterThemeRecyclerview, themeAdapter)
+        binding.filterGenreSelectAll.setOnClickListener {
+            setSelectAll(binding.filterGenreSelectAll, binding.filterGenreRecyclerview, genreAdapter, !binding.filterGenreSelectAll.isSelected)
+        }
+        binding.filterThemeSelectAll.setOnClickListener {
+            setSelectAll(binding.filterThemeSelectAll, binding.filterThemeRecyclerview, themeAdapter, !binding.filterThemeSelectAll.isSelected)
+        }
 
         // spinner
         // TODO : 조건 없는 경우 추가하기
@@ -47,7 +52,8 @@ class FilterActivity : AppCompatActivity() {
         binding.filterLevelSpinnerMin.adapter =
             ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, levelItems)
         binding.filterLevelSpinnerMax.adapter =
-            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, levelItems.reversed())
+            ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, levelItems)
+        binding.filterLevelSpinnerMax.setSelection(levelItems.size - 1)
 
         // apply button
         binding.filterApplyBtn.setOnClickListener {
@@ -73,6 +79,21 @@ class FilterActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        // 전체 뷰가 다 그려진 후 setPreviousFilter()가 실행되기 위해
+        // viewTreeObserver 사용
+        binding.filterRootLayout.viewTreeObserver.addOnGlobalLayoutListener (object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                // apply previous filter
+                if (intent.getBooleanExtra("isFiltered", false)) {
+                    setPreviousFilter()
+                }
+
+                // 1회성을 위해 Listener 제거
+                // 그렇지 않으면 setPreviousFilter()가 계속 실행됨.
+                binding.filterRootLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     // 뒤로가기 버튼
@@ -117,16 +138,63 @@ class FilterActivity : AppCompatActivity() {
         }
     }
 
-    private fun setSelectAll(allBtn : ImageButton, recyclerView: RecyclerView, adapters: FilterAdapters) {
-        allBtn.setOnClickListener {
-            allBtn.isSelected = !allBtn.isSelected
+    private fun setSelectAll(allBtn : ImageButton, recyclerView: RecyclerView, adapters: FilterAdapters, isSelected : Boolean) {
+        allBtn.isSelected = isSelected
 
-            for (i in 0 until recyclerView.childCount) {
+        for (i in 0 until recyclerView.childCount) {
+            val holder : FilterAdapters.ItemHolder =
+                recyclerView.getChildViewHolder(recyclerView.getChildAt(i)) as FilterAdapters.ItemHolder
+
+            adapters.selectItem(holder, i, isSelected)
+        }
+    }
+
+    private fun setPreviousFilter() {
+        val genreList = intent.getStringArrayListExtra("genreList")
+        val themeList = intent.getStringArrayListExtra("themeList")
+        val numPeople = intent.getIntExtra("numPeople", -1)
+        val levelMin = intent.getIntExtra("levelMin", -1)
+        val levelMax = intent.getIntExtra("levelMax", -1)
+
+
+        // set genreList
+        if (genreList!!.size == TagList.getGenreList().size) {
+            setSelectAll(binding.filterGenreSelectAll, binding.filterGenreRecyclerview, genreAdapter, true)
+        }
+        else {
+            val allList = TagList.getGenreList()
+
+            for (genre in genreList) {
+                val idx = allList.indexOf(genre)
                 val holder : FilterAdapters.ItemHolder =
-                    recyclerView.getChildViewHolder(recyclerView.getChildAt(i)) as FilterAdapters.ItemHolder
+                    binding.filterGenreRecyclerview.getChildViewHolder(binding.filterGenreRecyclerview.getChildAt(idx)) as FilterAdapters.ItemHolder
 
-                adapters.selectItem(holder, i, allBtn.isSelected)
+                genreAdapter.selectItem(holder, idx, true)
             }
         }
+
+        // set themeList
+        if (themeList!!.size == TagList.getThemeList().size) {
+            setSelectAll(binding.filterThemeSelectAll, binding.filterThemeRecyclerview, themeAdapter, true)
+        }
+        else {
+            val allList = TagList.getThemeList()
+
+            for (theme in themeList) {
+                val idx = allList.indexOf(theme)
+                val holder : FilterAdapters.ItemHolder =
+                    binding.filterThemeRecyclerview.getChildViewHolder(binding.filterThemeRecyclerview.getChildAt(idx)) as FilterAdapters.ItemHolder
+
+                themeAdapter.selectItem(holder, idx, true)
+            }
+        }
+
+        // set numPeople, levelMin, levelMax
+        if (numPeople != -1 && levelMin != -1 && levelMax != -1) {
+            binding.filterPeopleEdit.setText(numPeople.toString())
+            binding.filterLevelSpinnerMin.setSelection(levelMin)
+            binding.filterLevelSpinnerMax.setSelection(levelMax)
+        }
+
     }
 }

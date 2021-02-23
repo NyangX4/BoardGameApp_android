@@ -1,9 +1,11 @@
 package com.example.boardgame
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -51,6 +53,15 @@ class ReviewActivity : AppCompatActivity() {
             binding.reviewSeekbar.progress = (review.gameLevel * 2).toInt()
             binding.reviewLevelShow.text = review.gameLevel.toString()
             binding.reviewContentEdit.setText(review.content)
+        }
+
+        // 배경 터치 시 키보드 없애기
+        binding.reviewLinearLayout.setOnClickListener {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+            imm.hideSoftInputFromWindow(binding.reviewEditName.windowToken, 0)
+            imm.hideSoftInputFromWindow(binding.reviewPwd.windowToken, 0)
+            imm.hideSoftInputFromWindow(binding.reviewContentEdit.windowToken, 0)
         }
     }
 
