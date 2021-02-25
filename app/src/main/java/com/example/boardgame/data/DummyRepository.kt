@@ -9,7 +9,7 @@ object DummyRepository {
 
     private val dummyDataList = listOf(
         BoardGames(
-            1, R.drawable.picture_terraforming_mars, "테라포밍 마스", 2016, 2.93f, 146, 560,
+            1, R.drawable.picture_terraforming_mars, "테라포밍 마스", 2016,
             listOf(
                 TagList.getThemeId("SF"),
                 TagList.getThemeId("경제"),
@@ -18,11 +18,11 @@ object DummyRepository {
                 TagList.getThemeId("환경")
             ),
             1, 5, 90, 120 , 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3ndxE3U", 8.42f
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3ndxE3U"
         ),
 
         BoardGames(
-            2, R.drawable.picture_gloom_haven, "글룸헤이븐", 2016, 3.25f, 47, 113,
+            2, R.drawable.picture_gloom_haven, "글룸헤이븐", 2016,
             listOf(
                 TagList.getThemeId("모험"),
                 TagList.getThemeId("경제"),
@@ -30,11 +30,11 @@ object DummyRepository {
                 TagList.getThemeId("전투")
             ),
             1, 4, 60, 120, 12,
-            listOf(TagList.getGenreId("테마게임")), "https://bit.ly/35mZ0i5", 7.43f
+            listOf(TagList.getGenreId("테마게임")), "https://bit.ly/35mZ0i5"
         ),
 
         BoardGames(
-            3, R.drawable.picture_mage_knight, "메이지 나이트", 2011, 4.43f, 74, 214,
+            3, R.drawable.picture_mage_knight, "메이지 나이트", 2011,
             listOf(
                 TagList.getThemeId("모험"),
                 TagList.getThemeId("전투"),
@@ -43,18 +43,18 @@ object DummyRepository {
             ),
             1, 4, 60, 240, 14,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("테마게임")),
-            "https://bit.ly/2JYPwlE", 5.32f
+            "https://bit.ly/2JYPwlE"
         ),
 
         BoardGames(
-            4, R.drawable.picture_through_the_ages, "쓰루 디 에이지스(신판)", 2015, 4.14f, 54, 242,
+            4, R.drawable.picture_through_the_ages, "쓰루 디 에이지스(신판)", 2015,
             listOf(TagList.getThemeId("문명"), TagList.getThemeId("경제")),
             2,4, 120,120, 14,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3pZAg7f", 6.48f
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3pZAg7f"
         ),
 
         BoardGames(
-            5, R.drawable.picture_gaia_project, "가이아 프로젝트", 2017, 4.22f, 52, 277,
+            5, R.drawable.picture_gaia_project, "가이아 프로젝트", 2017,
             listOf(
                 TagList.getThemeId("문명"),
                 TagList.getThemeId("경제"),
@@ -62,22 +62,22 @@ object DummyRepository {
                 TagList.getThemeId("테라포밍")
             ),
             1,4, 60,150, 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s48d8u", 7.23f
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s48d8u"
         ),
 
         BoardGames(
-            6, R.drawable.picture_twilight_struggle, "황혼의 투쟁", 2005, 3.76f, 125, 389,
+            6, R.drawable.picture_twilight_struggle, "황혼의 투쟁", 2005,
             listOf(TagList.getThemeId("현대전"), TagList.getThemeId("정치"), TagList.getThemeId("워게임")),
             2,2, 120,180, 13,
             listOf(TagList.getGenreId("전략게임"), TagList.getGenreId("워게임")),
-            "https://bit.ly/2LfIXLU", 5.89f
+            "https://bit.ly/2LfIXLU"
         ),
 
         BoardGames(
-            7, R.drawable.picture_puerto_rico, "푸에르토 리코", 2002, 2.89f, 137, 560,
+            7, R.drawable.picture_puerto_rico, "푸에르토 리코", 2002,
             listOf(TagList.getThemeId("도시건설"), TagList.getThemeId("경제"), TagList.getThemeId("농사")),
             3,5, 90,150, 12,
-            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s1qYtk", 6.77f
+            listOf(TagList.getGenreId("전략게임")), "https://bit.ly/3s1qYtk"
         )
     )
 
@@ -151,5 +151,5 @@ object DummyRepository {
         return tmpList
     }
 
-    fun getCheckGoodList() = dummyDataList.filter { it.isGood }
+    fun filteringCheckGood() = dummyDataList.filter { it.isGood }
 }

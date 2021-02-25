@@ -1,5 +1,6 @@
 package com.example.boardgame.model
 
+import com.example.boardgame.data.ReviewList
 import com.example.boardgame.data.TagList
 
 class BoardGames {
@@ -20,6 +21,7 @@ class BoardGames {
     var howToPlay: String? = null
     var rate: Float = 0.0f
 
+    // TODO : code check
     var isGood = false
 
     constructor(
@@ -27,9 +29,6 @@ class BoardGames {
         gameImage: Int,
         gameTitle: String,
         year: Int,
-        gameLevel: Float,
-        thumbCnt: Int,
-        commentCnt: Int,
         themeList: List<Int>,
         peopleMin: Int,
         peopleMax: Int,
@@ -37,16 +36,15 @@ class BoardGames {
         playTimeMax: Int,
         age: Int,
         genreList: List<Int>,
-        howToPlay: String,
-        rate: Float
+        howToPlay: String
     ) {
         this.id = id
         this.gameImage = gameImage
         this.gameTitle = gameTitle
         this.year = year
-        this.gameLevel = gameLevel
-        this.thumbCnt = thumbCnt
-        this.commentCnt = commentCnt
+//        this.gameLevel = gameLevel
+//        this.thumbCnt = thumbCnt
+//        this.commentCnt = commentCnt
         this.themeList = themeList
         this.peopleMin = peopleMin
         this.peopleMax = peopleMax
@@ -55,7 +53,7 @@ class BoardGames {
         this.age = age
         this.genreList = genreList
         this.howToPlay = howToPlay
-        this.rate = rate
+//        this.rate = rate
     }
 
     fun yearToString() = "${year}년"
@@ -65,8 +63,14 @@ class BoardGames {
         else "$playTimeMin ~ ${playTimeMax}분"
 
     fun ageToString() = "${age}세 이상"
-    fun gameLevelToString() = "${gameLevel.toString()} / 5"
-    fun rateToString() = "$rate / 10"
+    fun gameLevelToString() : String {
+        gameLevel = ReviewList.getAvgGameLevel(id)
+        return "$gameLevel / 5"
+    }
+    fun rateToString() : String {
+        rate = ReviewList.getAvgRate(id)
+        return "$rate / 5"
+    }
     fun genreToString(): String {
         var items: MutableList<String> = mutableListOf()
         for (item in genreList!!) {
@@ -74,7 +78,14 @@ class BoardGames {
         }
         return items.joinToString()
     }
-
     fun thumbToString() = thumbCnt.toString()
-    fun commentToString() = commentCnt.toString()
+    fun commentToString() = ReviewList.getReviewList(id).size.toString()
+
+    // 좋아요 버튼 눌렀을 때 실행
+    fun setCheckGood() {
+        isGood = !isGood
+
+        if (isGood) thumbCnt++
+        else thumbCnt--
+    }
 }

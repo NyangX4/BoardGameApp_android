@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.boardgame.adapters.GamesAdapters
 import com.example.boardgame.data.DummyRepository
+import com.example.boardgame.data.ReviewList
 import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityMainBinding
 
@@ -144,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 "좋아요 누른 게임" -> {
                     binding.gamesRecyclerview.adapter =
-                        GamesAdapters(this, DummyRepository.getCheckGoodList())
+                        GamesAdapters(this, DummyRepository.filteringCheckGood())
                 }
                 else -> {
                     binding.gamesRecyclerview.adapter = GamesAdapters(
@@ -170,5 +171,12 @@ class MainActivity : AppCompatActivity() {
             backBtnTime = currTime
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // activity에 다시 들어올 때마다 data refresh함
+        binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
     }
 }

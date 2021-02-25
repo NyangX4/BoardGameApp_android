@@ -54,4 +54,17 @@ object ReviewList {
         Log.i("current Time", SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.getDefault()).format(System.currentTimeMillis()))
         return date!!.time
     }
+
+    // 게임 난이도 평균 계산하기
+    fun getAvgGameLevel(gameId : Int) : Float {
+        val gameLevelList = dummyReview.filter { it.id == gameId }.map { it.gameLevel }
+
+        return gameLevelList.average().toFloat()
+    }
+    // rate 평점 계산하기
+    fun getAvgRate(gameId : Int) : Float {
+        val rateList = dummyReview.filter { it.id == gameId }.map { it.rate }
+
+        return rateList.average().toFloat()
+    }
 }

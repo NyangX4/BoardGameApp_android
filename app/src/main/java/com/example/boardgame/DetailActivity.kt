@@ -60,7 +60,7 @@ class DetailActivity : AppCompatActivity() {
         binding.detailThumb.setOnClickListener {
             binding.detailThumb.isSelected = !binding.detailThumb.isSelected
             // TODO : activity가 종료되어도 그대로 남아있기
-            data.isGood = !data.isGood
+            data.setCheckGood()
         }
 
         // review more activity
