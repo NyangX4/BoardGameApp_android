@@ -3,6 +3,7 @@ package com.example.boardgame
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
@@ -92,6 +93,8 @@ class ReviewActivity : AppCompatActivity() {
                 checkDialog.show()
             }
             R.id.review_save -> {
+                if (!checkEmptyText()) return super.onOptionsItemSelected(item)
+
                 if (gameId > 0 && reviewId == 0) {
                     // 새로운 review 추가
                     ReviewList.addReview(
@@ -129,12 +132,20 @@ class ReviewActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        if (binding.reviewContentEdit.text.toString().isEmpty()) {
+            finish()
+            return
+        }
+
         val builder = AlertDialog.Builder(this)
 
         builder.apply {
-            setMessage("저장하시겠습니까?")
+            setMessage("작성 중인 리뷰를 저장하시겠습니까?")
             setPositiveButton("예") { dialog, which ->
-                if (gameId > 0 && reviewId == 0) {
+                if (!checkEmptyText()) {
+                    dialog.dismiss()
+                }
+                else if (gameId > 0 && reviewId == 0) {
                     // 새로운 review 추가
                     ReviewList.addReview(
                         Review(
@@ -150,6 +161,7 @@ class ReviewActivity : AppCompatActivity() {
                     )
 
                     Toast.makeText(applicationContext, "저장되었습니다.", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
                 else if (reviewId > 0 && gameId == 0) {
                     // review 수정
@@ -162,8 +174,8 @@ class ReviewActivity : AppCompatActivity() {
                     )
 
                     Toast.makeText(applicationContext, "수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    finish()
                 }
-                finish()
             }
             setNegativeButton("아니오") { dialog, which ->
                 finish()
@@ -177,6 +189,19 @@ class ReviewActivity : AppCompatActivity() {
     // 뒤로가기 버튼
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        return true
+    }
+
+    private fun checkEmptyText() : Boolean {
+        if (binding.reviewEditName.text.toString().isEmpty()) {
+            Toast.makeText(applicationContext, "이름을 작성해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (binding.reviewPwd.text.toString().isEmpty()) {
+            Toast.makeText(applicationContext, "비밀번호를 작성해주세요", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
         return true
     }
 }
