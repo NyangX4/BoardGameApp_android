@@ -20,6 +20,8 @@ class BoardGames {
     var howToPlay: String? = null
     var rate: Float = 0.0f
 
+    var isGood = false
+
     constructor(
         id: Int,
         gameImage: Int,

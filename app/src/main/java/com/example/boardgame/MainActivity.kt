@@ -21,36 +21,34 @@ import com.example.boardgame.data.TagList
 import com.example.boardgame.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
-    private lateinit var toggle : ActionBarDrawerToggle
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var toggle: ActionBarDrawerToggle
 
-    private var backBtnTime : Long = 0L
+    private var backBtnTime: Long = 0L
     private var isFiltered = false
-    private var genreList : ArrayList<String>? = null
-    private var themeList : ArrayList<String>? = null
-    private var numPeople : Int? = null
-    private var levelMin : Int? = null
-    private var levelMax : Int? = null
+    private var genreList: ArrayList<String>? = null
+    private var themeList: ArrayList<String>? = null
+    private var numPeople: Int? = null
+    private var levelMin: Int? = null
+    private var levelMax: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // TODO : spanCount를 auto fit으로 바꿔주기
-        binding.gamesRecyclerview.layoutManager = GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
+        binding.gamesRecyclerview.layoutManager =
+            GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false)
         binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
         binding.gamesRecyclerview.setHasFixedSize(true)
 
         // no filter list show
         binding.mainFilterApplyLayout.visibility = View.GONE
-        binding.mainFilterXBtn.setOnClickListener { 
+        binding.mainFilterXBtn.setOnClickListener {
             binding.toolbar.title = "보드게임"
 
             binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.getList())
             binding.mainFilterApplyLayout.visibility = View.GONE
-
-            // drawer menu 에서 선택된거 없애기
-            binding.navListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, TagList.getGenreList())
 
             isFiltered = false
         }
@@ -109,9 +107,13 @@ class MainActivity : AppCompatActivity() {
                 levelMax = data.getIntExtra("levelMax", 0)
 
                 binding.mainFilterApplyLayout.visibility = View.VISIBLE
-                binding.gamesRecyclerview.adapter = GamesAdapters(this,
-                    DummyRepository.filtering(genreList!!, themeList!!, numPeople!!, levelMin!!, levelMax!!))
-
+                binding.gamesRecyclerview.adapter = GamesAdapters(
+                    this,
+                    DummyRepository.filtering(
+                        genreList = genreList!!, themeList = themeList!!, numPeople = numPeople!!,
+                        levelMin = levelMin!!, levelMax = levelMax!!
+                    )
+                )
                 isFiltered = true
             }
         }
@@ -119,17 +121,38 @@ class MainActivity : AppCompatActivity() {
 
     // drawer menu
     private fun setDrawerMenu() {
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.nav_open, R.string.nav_close)
+        toggle =
+            ActionBarDrawerToggle(this, binding.drawerLayout, R.string.nav_open, R.string.nav_close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        val genreList = TagList.getGenreList()
-        binding.navListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, genreList)
+        val menu = mutableListOf("전체", "좋아요 누른 게임")
+        menu += TagList.getGenreList()
+        binding.navListView.adapter = ArrayAdapter(this, R.layout.drawer_menu_list_item, menu)
         binding.navListView.setOnItemClickListener { parent, view, position, id ->
-            binding.toolbar.title = genreList[position]
+            binding.toolbar.title = menu[position]
 
-            binding.mainFilterApplyLayout.visibility = View.VISIBLE
-            binding.gamesRecyclerview.adapter = GamesAdapters(this, DummyRepository.filtering(arrayListOf(genreList[position])))
+            when (menu[position]) {
+                "전체" -> {
+                    binding.toolbar.title = "보드게임"
+                    binding.gamesRecyclerview.adapter =
+                        GamesAdapters(this, DummyRepository.getList())
+
+                    // drawer menu 에서 선택된거 없애기
+                    binding.navListView.adapter =
+                        ArrayAdapter(this, R.layout.drawer_menu_list_item, menu)
+                }
+                "좋아요 누른 게임" -> {
+                    binding.gamesRecyclerview.adapter =
+                        GamesAdapters(this, DummyRepository.getCheckGoodList())
+                }
+                else -> {
+                    binding.gamesRecyclerview.adapter = GamesAdapters(
+                        this,
+                        DummyRepository.filtering(genreList = arrayListOf(menu[position]))
+                    )
+                }
+            }
 
             // close nav menu
             binding.drawerLayout.closeDrawer(Gravity.LEFT)
@@ -143,8 +166,7 @@ class MainActivity : AppCompatActivity() {
 
         if (diffTime in 0..2000) {
             super.onBackPressed()
-        }
-        else {
+        } else {
             backBtnTime = currTime
             Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
         }

@@ -24,7 +24,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/result_search_btn"
+                android:id="@+id/result_filter_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -39,6 +39,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/result_filter_x_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -107,10 +107,10 @@ object DummyRepository {
     fun getThemeTitleList(list : List<Int>) : List<String> = list.map { TagList.getThemeTitle(it) } // theme id -> title
 
     // 선택한 필터를 적용한 list return
-    fun filtering(
+    fun filtering(wantFiltering : List<BoardGames> = dummyDataList,
         genreList: ArrayList<String> = arrayListOf(), themeList: ArrayList<String> = arrayListOf(),
         numPeople: Int = -1, levelMin: Int = -1, levelMax: Int = 6) : List<BoardGames> {
-        var filteredList = dummyDataList.toList()
+        var filteredList = wantFiltering.toList()
 
         if (numPeople > -1) {
             filteredList = filteredList.filter { item -> item.peopleMin <= numPeople && numPeople <= item.peopleMax }
@@ -150,4 +150,6 @@ object DummyRepository {
 
         return tmpList
     }
+
+    fun getCheckGoodList() = dummyDataList.filter { it.isGood }
 }
